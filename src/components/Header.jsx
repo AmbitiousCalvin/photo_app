@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { Button, Icon } from "./Buttons";
 import { IoSearchOutline } from "react-icons/io5";
+import { TbWorld } from "react-icons/tb";
 
 function MenuIcon() {
 	const [active, setActive] = useState(false);
 
 	return (
-		<div
+		<button
 			onClick={() => setActive((prev) => !prev)}
-			className="rounded group p-0 w-10 h-10 flex flex-col items-center justify-center hover:bg-gray-950/10 cursor-pointer relative"
+			className="icon-secondary rounded group p-0 w-10 h-10 flex flex-col items-center justify-center cursor-pointer relative"
 		>
 			{/* Top bar */}
 			<span
@@ -22,7 +23,7 @@ function MenuIcon() {
 			{/* Middle bar */}
 			<span
 				className={`absolute w-5 h-0.5 bg-gray-950 rounded-md transition-all duration-300 ${
-					active ? "opacity-0" : "top-1/2 translate-y-[-45%]"
+					active ? "opacity-0" : ""
 				}`}
 			></span>
 
@@ -34,14 +35,14 @@ function MenuIcon() {
 						: "top-[calc(50%+0.45rem)] rounded-none"
 				}`}
 			></span>
-		</div>
+		</button>
 	);
 }
 
 function DropDown({ options, className }) {
 	return (
 		<div className={`px-2 py-1 rounded-md ${className}`}>
-			{options.map((option, index) => (
+			{options?.map((option, index) => (
 				<option key={index} value={option}>
 					{option}
 				</option>
@@ -52,13 +53,13 @@ function DropDown({ options, className }) {
 
 function SearchBar({ placeholder, type }) {
 	return (
-		<div className="w-full max-w-90 rounded-lg flex px-1 py-0.5 space-x-1 border-2 border-gray-400">
+		<div className="w-fit rounded-lg flex items-center px-1 py-0 space-x-1 ring-1 ring-gray-400">
 			<input
 				type={type}
 				className="outline-none w-full px-4"
 				placeholder={placeholder}
 			></input>
-			<Icon className={"rounded"}>
+			<Icon className={"rounded-md icon-square"}>
 				<IoSearchOutline></IoSearchOutline>
 			</Icon>
 		</div>
@@ -67,19 +68,22 @@ function SearchBar({ placeholder, type }) {
 
 function Header() {
 	return (
-		<header className="flex items-center w-full px-4 py-2 space-x-4">
+		<header className="flex items-center w-full padding-normal space-x-2">
 			<div>
 				<h1 className="italic text-2xl cursor-pointer">Pexels</h1>
 			</div>
+
 			<div className="grow flex justify-center">
 				<SearchBar
 					placeholder={"Search for free photos"}
-					type="search"
+					type="text"
 				></SearchBar>
 			</div>
 
-			<Button>Join</Button>
-			<MenuIcon></MenuIcon>
+			<div className="flex items-center">
+				<Button>Join</Button>
+				<MenuIcon></MenuIcon>
+			</div>
 		</header>
 	);
 }
