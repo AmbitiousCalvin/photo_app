@@ -56,7 +56,7 @@ function SearchBar({ placeholder, type }) {
 		<div className="w-fit rounded-lg flex items-center px-1 py-0 space-x-1 ring-1 ring-gray-400">
 			<input
 				type={type}
-				className="outline-none w-full px-4"
+				className="outline-none w-full px-4 font-semibold"
 				placeholder={placeholder}
 			></input>
 			<Icon className={"rounded-md icon-square"}>
@@ -68,7 +68,7 @@ function SearchBar({ placeholder, type }) {
 
 function Header() {
 	return (
-		<header className="flex items-center w-full padding-normal space-x-2">
+		<header className="flex items-center w-full padding-normal space-x-5 bg-white/20 backdrop-blur-md">
 			<div>
 				<h1 className="italic text-2xl cursor-pointer">Pexels</h1>
 			</div>

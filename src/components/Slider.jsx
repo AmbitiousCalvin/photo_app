@@ -33,8 +33,7 @@ const photoTags = [
 	"studio-light",
 ];
 
-function Slider() {
-	const [options, setOptions] = useState(photoTags);
+function Slider({ options = photoTags }) {
 	const [isHidden, setHidden] = useState([true, false]);
 	const sliderContentRef = useRef(null);
 

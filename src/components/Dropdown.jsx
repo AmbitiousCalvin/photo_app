@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import { Button, Icon, ArrowIcon } from "./Buttons";
 import { useEffect } from "react";
 
-function Option({ children, ...rest }) {
+function Option({ className, children, selected, ...rest }) {
 	return (
 		<span
 			{...rest}
-			className="text-nowrap flex items-center justify-between w-fit cursor-pointer hover:bg-gray-200 active:bg-gray-300 px-3 py-2 rounded-lg text-slate-800 font-semibold transition-all duration-150 gap-2"
+			className={`text-nowrap flex items-center justify-between w-fit cursor-pointer hover:bg-gray-200 active:bg-gray-300 px-3 py-2 rounded-lg font-semibold transition-all duration-150 gap-2 ${
+				selected ? "text-emerald-500" : "text-slate-800"
+			} ${className}`}
 		>
 			{children}
 		</span>
@@ -64,6 +66,7 @@ function Dropdown({
 									onChildClick(e, index);
 								}}
 								{...restProps}
+								selected={index === selectedId}
 							>
 								{children}
 							</Option>
