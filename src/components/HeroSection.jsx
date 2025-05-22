@@ -61,10 +61,6 @@ function HeroSection() {
 		getPhoto();
 	}, []);
 
-	useEffect(() => {
-		console.log(photo);
-	}, [photo]);
-
 	return (
 		<section
 			className="h-[23%] padding-normal border-2 flex flex-col items-center justify-center gap-2 bg-no-repeat bg-cover bg-center"

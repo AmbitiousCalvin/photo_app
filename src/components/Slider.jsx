@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { Icon, Button } from "./Buttons";
 import { FaArrowRight } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
+import { Children } from "react";
 
 const photoTags = [
 	"portrait",
@@ -33,8 +34,15 @@ const photoTags = [
 	"studio-light",
 ];
 
-function Slider({ options = photoTags }) {
+function Slider({
+	className,
+	options = photoTags,
+	scrollable = true,
+	children,
+}) {
+	const childrenArray = Children.toArray(children);
 	const [isHidden, setHidden] = useState([true, false]);
+	const [selectedId, setSelectedId] = useState(0);
 	const sliderContentRef = useRef(null);
 
 	const scrollSlider = (direction = 1) => {
@@ -51,55 +59,100 @@ function Slider({ options = photoTags }) {
 		setHidden([atStart, atEnd]);
 	};
 
-	const maskStyle = {
-		WebkitMaskImage: `linear-gradient(to right,
+	const maskStyle = scrollable
+		? {
+				WebkitMaskImage: `linear-gradient(to right,
 			${isHidden[0] ? "black" : "transparent"} 0px,
 			black 30px,
 			black calc(100% - 30px),
 			${isHidden[1] ? "black" : "transparent"} 100%)`,
-		maskImage: `linear-gradient(to right,
+				maskImage: `linear-gradient(to right,
 			${isHidden[0] ? "black" : "transparent"} 0px,
 			black 30px,
 			black calc(100% - 30px),
 			${isHidden[1] ? "black" : "transparent"} 100%)`,
+		  }
+		: {};
+
+	const selectedStyles = (isSelected) => {
+		if (isSelected)
+			return "[&&&]:rounded-full bg-gray-950 hover:bg-gray-950/90 active:bg-gray-950/70 text-white ";
+
+		return "[&&&]:rounded bg-gray-100 hover:bg-gray-200 active:bg-gray-950/20 border-2 text-slate-950 shadow-sm ring-1 ring-gray-200 ";
 	};
 
 	return (
-		<nav className="w-full h-10 flex items-center padding-normal space-x-2 my-2">
-			<Icon
-				onClick={() => scrollSlider(-1)}
-				className={`icon-secondary ${
-					isHidden[0] && "opacity-25 cursor-not-allowed"
-				}`}
-			>
-				<FaArrowLeft></FaArrowLeft>
-			</Icon>
+		<nav
+			className={`${
+				className ? className : "w-full"
+			} h-10 flex items-center padding-normal space-x-2 my-2`}
+		>
+			{scrollable && (
+				<Icon
+					onClick={() => scrollSlider(-1)}
+					className={`icon-secondary ${
+						isHidden[0] && "opacity-25 cursor-not-allowed"
+					}`}
+				>
+					<FaArrowLeft></FaArrowLeft>
+				</Icon>
+			)}
 
-			<div
-				ref={sliderContentRef}
-				className="flex-1 overflow-x-auto whitespace-nowrap scrollbar-hidden scroll-smooth"
-				style={maskStyle}
-			>
-				<div className="inline-flex items-center space-x-2">
-					{options.map((option, index) => (
-						<Button
-							className="btn-third w-fit text-black rounded-md"
-							key={index}
-						>
-							<p>{option}</p>
-						</Button>
-					))}
+			{childrenArray.length === 0 && (
+				<div
+					ref={sliderContentRef}
+					className="flex-1 overflow-x-auto whitespace-nowrap scrollbar-hidden scroll-smooth"
+					style={maskStyle}
+				>
+					<div className="inline-flex items-center space-x-2">
+						{options.map((option, index) => (
+							<Button
+								onClick={() => setSelectedId(index)}
+								className={`btn-third w-fit text-black rounded-m ${selectedStyles(
+									index === selectedId
+								)}`}
+								key={index}
+							>
+								<p>{option}</p>
+							</Button>
+						))}
+					</div>
 				</div>
-			</div>
+			)}
 
-			<Icon
-				onClick={() => scrollSlider(1)}
-				className={`icon-secondary ${
-					isHidden[1] && "opacity-25 cursor-not-allowed"
-				}`}
-			>
-				<FaArrowRight></FaArrowRight>
-			</Icon>
+			{Children.map(childrenArray, (child, index) => {
+				const {
+					children,
+					onClick = () => {},
+					className,
+					...rest
+				} = child.props;
+
+				return (
+					<Button
+						onClick={(e) => {
+							setSelectedId(index);
+							onClick(e, index);
+						}}
+						key={index}
+						{...rest}
+						className={`${className} ${selectedStyles(index === selectedId)}`}
+					>
+						{children}
+					</Button>
+				);
+			})}
+
+			{scrollable && (
+				<Icon
+					onClick={() => scrollSlider(1)}
+					className={`icon-secondary ${
+						isHidden[1] && "opacity-25 cursor-not-allowed"
+					}`}
+				>
+					<FaArrowRight></FaArrowRight>
+				</Icon>
+			)}
 		</nav>
 	);
 }

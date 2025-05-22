@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button, Icon } from "./Buttons";
 import { IoSearchOutline } from "react-icons/io5";
 import { TbWorld } from "react-icons/tb";
+import { useEffect } from "react";
 
 function MenuIcon() {
 	const [active, setActive] = useState(false);
@@ -51,10 +52,24 @@ function DropDown({ options, className }) {
 	);
 }
 
-function SearchBar({ placeholder, type }) {
+function SearchBar({ placeholder, type, setQuery }) {
+	const [value, setValue] = useState("");
+
+	useEffect(() => {
+		if (value === "") return;
+
+		const timeoutId = setTimeout(() => setQuery(value), 3000);
+
+		return () => {
+			clearTimeout(timeoutId);
+		};
+	}, [value]);
+
 	return (
 		<div className="w-fit rounded-lg flex items-center px-1 py-0 space-x-1 ring-1 ring-gray-400">
 			<input
+				value={value}
+				onChange={(e) => setValue(e.target.value)}
 				type={type}
 				className="outline-none w-full px-4 font-semibold"
 				placeholder={placeholder}
@@ -66,15 +81,16 @@ function SearchBar({ placeholder, type }) {
 	);
 }
 
-function Header() {
+function Header({ setQuery }) {
 	return (
-		<header className="flex items-center w-full padding-normal space-x-5 bg-white/20 backdrop-blur-md">
+		<header className="sticky top-0 flex items-center w-full padding-normal space-x-5 bg-white">
 			<div>
 				<h1 className="italic text-2xl cursor-pointer">Pexels</h1>
 			</div>
 
 			<div className="grow flex justify-center">
 				<SearchBar
+					setQuery={setQuery}
 					placeholder={"Search for free photos"}
 					type="text"
 				></SearchBar>
