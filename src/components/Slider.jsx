@@ -78,7 +78,7 @@ function Slider({
 	// styles for showing a selected button
 	const selectedStyles = (isSelected) => {
 		if (isSelected)
-			return "[&&&]:rounded-full bg-gray-950 hover:bg-gray-950/90 active:bg-gray-950/70 text-white ";
+			return "[&&&]:rounded-full bg-gray-950 hover:bg-gray-950/90 active:bg-gray-950/70 text-white border-2 btn-primary";
 
 		return "[&&&]:rounded bg-gray-100 hover:bg-gray-200 active:bg-gray-950/20 border-2 text-slate-950 shadow-sm ring-1 ring-gray-200 ";
 	};

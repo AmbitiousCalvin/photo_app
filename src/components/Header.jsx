@@ -1,9 +1,13 @@
 import { useState, useRef } from "react";
 import { Button, Icon } from "./Buttons";
 import { IoSearchOutline } from "react-icons/io5";
+import { Dropdown, Option } from "./Dropdown";
 import { TbWorld } from "react-icons/tb";
 import { useEffect } from "react";
 import useEventListener from "../hooks/useEventListener";
+import { useMyContext } from "../context";
+import { HiOutlinePhotograph } from "react-icons/hi";
+import { MdOutlineSlowMotionVideo } from "react-icons/md";
 
 function MenuIcon() {
 	const [active, setActive] = useState(false);
@@ -11,11 +15,11 @@ function MenuIcon() {
 	return (
 		<button
 			onClick={() => setActive((prev) => !prev)}
-			className="icon-secondary rounded group p-0 w-10 h-10 flex flex-col items-center justify-center cursor-pointer relative"
+			className="icon-secondary rounded group p-0 w-10 h-10 flex flex-col items-center justify-center cursor-pointer relative hover:bg-gray-950/25 active:bg-gray-950/40"
 		>
 			{/* Top bar */}
 			<span
-				className={`absolute w-5 h-0.5 bg-gray-950 rounded-md transition-all duration-300 ${
+				className={`absolute w-5 h-0.5 bg-white rounded-md transition-all duration-300 ${
 					active
 						? "rotate-45 top-1/2 translate-y-[-50%]"
 						: "top-[calc(50%-0.45rem)] rounded-none"
@@ -24,14 +28,14 @@ function MenuIcon() {
 
 			{/* Middle bar */}
 			<span
-				className={`absolute w-5 h-0.5 bg-gray-950 rounded-md transition-all duration-300 ${
+				className={`absolute w-5 h-0.5 bg-white rounded-md transition-all duration-300 ${
 					active ? "opacity-0" : ""
 				}`}
 			></span>
 
 			{/* Bottom bar */}
 			<span
-				className={`absolute w-5 h-0.5 bg-gray-950 rounded-md transition-all duration-300 ${
+				className={`absolute w-5 h-0.5 bg-white rounded-md transition-all duration-300 ${
 					active
 						? "-rotate-45 top-1/2 translate-y-[-50%]"
 						: "top-[calc(50%+0.45rem)] rounded-none"
@@ -41,30 +45,8 @@ function MenuIcon() {
 	);
 }
 
-function DropDown({ options, className }) {
-	return (
-		<div className={`px-2 py-1 rounded-md ${className}`}>
-			{options?.map((option, index) => (
-				<option key={index} value={option}>
-					{option}
-				</option>
-			))}
-		</div>
-	);
-}
-
 function SearchBar({ placeholder, type, setQuery }) {
 	const [value, setValue] = useState("");
-
-	// useEffect(() => {
-	// 	if (value === "") return;
-
-	// 	const timeoutId = setTimeout(() => setQuery(value), 3000);
-
-	// 	return () => {
-	// 		clearTimeout(timeoutId);
-	// 	};
-	// }, [value]);
 
 	useEffect(() => {
 		const handler = ({ key }) => {
@@ -92,23 +74,42 @@ function SearchBar({ placeholder, type, setQuery }) {
 	);
 }
 
-function Header({ setQuery }) {
+function Header() {
+	const { setQuery } = useMyContext();
+
 	return (
-		<header className="sticky top-0 flex items-center w-full padding-normal space-x-5 bg-white">
+		<header className="absolute top-0 padding-normal z-50 flex items-center w-full space-x-5 bg-transparent text-white">
 			<div>
-				<h1 className="italic text-2xl cursor-pointer">Pexels</h1>
+				<h1 className="italic text-2xl text-shadow-lg cursor-pointer">
+					Pexels
+				</h1>
 			</div>
 
 			<div className="grow flex justify-center">
-				<SearchBar
+				{/* <SearchBar
 					setQuery={setQuery}
 					placeholder={"Search for free photos"}
 					type="text"
-				></SearchBar>
+				></SearchBar> */}
 			</div>
 
 			<div className="flex items-center">
-				<Button>Join</Button>
+				<Dropdown
+					text={"Explore"}
+					className={
+						"rounded-full btn-third ring-0 h-full bg-transparent  hover:bg-gray-950/25 active:bg-gray-950/40 text-white shadow-none font-semibold"
+					}
+				>
+					<Option>
+						<HiOutlinePhotograph className="text-icon"></HiOutlinePhotograph>
+						Photos
+					</Option>
+					<Option>
+						<MdOutlineSlowMotionVideo className="text-icon"></MdOutlineSlowMotionVideo>
+						Videos
+					</Option>
+				</Dropdown>
+				<Button className={"btn-secondary"}>Join</Button>
 				<MenuIcon></MenuIcon>
 			</div>
 		</header>

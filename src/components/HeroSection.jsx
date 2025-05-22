@@ -4,7 +4,52 @@ import { IoSearchOutline } from "react-icons/io5";
 import { Dropdown, Option } from "./Dropdown";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import { MdOutlineSlowMotionVideo } from "react-icons/md";
+import Header from "./Header";
+
 const apiKey = import.meta.env.VITE_PEXELS_API_KEY;
+const client = createClient(apiKey);
+
+import { createClient } from "pexels";
+import { useEffect } from "react";
+
+function HeroSection() {
+	const query = "Nature";
+	const [photo, setPhoto] = useState({});
+
+	useEffect(() => {
+		const getPhoto = async () => {
+			try {
+				const photos = await client.photos.search({ query, per_page: 1 });
+
+				setPhoto(photos.photos[0]);
+			} catch (e) {
+				console.log(e);
+				setPhoto(null);
+			}
+		};
+
+		getPhoto();
+	}, []);
+
+	return (
+		<section
+			className="h-[80vh] padding-normal border-none flex flex-col items-center justify-center gap-2 bg-no-repeat bg-cover bg-center bg-gray-950"
+			style={{
+				backgroundImage: `url(${photo?.src?.original})`,
+			}}
+		>
+			<Header></Header>
+
+			<div className="w-[clamp(250px,95%,600px)] flex flex-col items-center gap-4 justify-center px-1">
+				<h1 className="text-[clamp(1.5rem,3vw,2rem)] text-left text-white font-semibold leading-tight text-shadow-lg ">
+					The best free stock photos, royalty-free images & videos shared by
+					creators.
+				</h1>
+				<SearchBar placeholder="Search for free photos" />
+			</div>
+		</section>
+	);
+}
 
 function SearchBar({ placeholder = "", type = "text" }) {
 	return (
@@ -32,50 +77,6 @@ function SearchBar({ placeholder = "", type = "text" }) {
 				<IoSearchOutline className="text-icon"></IoSearchOutline>
 			</Icon>
 		</div>
-	);
-}
-
-import { createClient } from "pexels";
-import { useEffect } from "react";
-
-const client = createClient(
-	"P3KeC5CvYDfcp3brfSziJUx1FC2ghTYqfPu8uooxevb5eMLzwECThv7h"
-);
-const query = "Green";
-
-function HeroSection() {
-	const [photo, setPhoto] = useState({});
-
-	useEffect(() => {
-		const getPhoto = async () => {
-			try {
-				const photos = await client.photos.search({ query, per_page: 1 });
-
-				setPhoto(photos.photos[0]);
-			} catch (e) {
-				console.log(e);
-				setPhoto(null);
-			}
-		};
-
-		getPhoto();
-	}, []);
-
-	return (
-		<section
-			className="h-[23%] padding-normal border-2 flex flex-col items-center justify-center gap-2 bg-no-repeat bg-cover bg-center"
-			style={{
-				backgroundImage: `url(${photo?.src?.landscape})`,
-			}}
-		>
-			<div className="w-[clamp(250px,95%,600px)] flex flex-col items-center gap-4 justify-center px-1">
-				<h1 className="text-[clamp(1.5rem,3vw,2rem)] text-left text-white font-semibold leading-tight text-shadow-lg ">
-					The best free stock photos, royalty-free images & videos shared by
-					creators.
-				</h1>
-				<SearchBar placeholder="Search for free photos" />
-			</div>
-		</section>
 	);
 }
 
