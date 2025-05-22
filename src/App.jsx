@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Icon, Button } from "./components/Buttons.jsx";
+import { Icon, Button, LoadingIcon } from "./components/Buttons.jsx";
 import Header from "./components/Header.jsx";
 import Slider from "./components/Slider.jsx";
 import { TbWorld } from "react-icons/tb";
@@ -46,7 +46,7 @@ function App() {
 						Option 2
 					</Option>
 					<Option>
-						<TbWorld></TbWorld>
+					<TbWorld></TbWorld>
 						Option 3
 					</Option>
 				</Dropdown>
@@ -59,6 +59,7 @@ function App() {
 
 				<Button className={"btn-third"}>Hello</Button> */}
 					<PhotoGrid query={query}></PhotoGrid>
+					<LoadingIcon></LoadingIcon>
 				</main>
 			</QueryClientProvider>
 		</>

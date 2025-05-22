@@ -32,8 +32,9 @@ function LoadingIcon({ duration = 1 }) {
 				<div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
 				<div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div> */}
 
-				{[0, 0.2, 0.4, 0.2, 0.0].map((delay) => (
+				{[0, 0.2, 0.4, 0.2, 0.0].map((delay, index) => (
 					<div
+						key={index}
 						className="w-2 h-13 bg-emerald-600 rounded-lg animate-wiggle"
 						style={{
 							animationDuration: `${duration}s`,

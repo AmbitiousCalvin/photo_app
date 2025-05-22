@@ -3,6 +3,7 @@ import { Button, Icon } from "./Buttons";
 import { IoSearchOutline } from "react-icons/io5";
 import { TbWorld } from "react-icons/tb";
 import { useEffect } from "react";
+import useEventListener from "../hooks/useEventListener";
 
 function MenuIcon() {
 	const [active, setActive] = useState(false);
@@ -55,15 +56,25 @@ function DropDown({ options, className }) {
 function SearchBar({ placeholder, type, setQuery }) {
 	const [value, setValue] = useState("");
 
+	// useEffect(() => {
+	// 	if (value === "") return;
+
+	// 	const timeoutId = setTimeout(() => setQuery(value), 3000);
+
+	// 	return () => {
+	// 		clearTimeout(timeoutId);
+	// 	};
+	// }, [value]);
+
 	useEffect(() => {
-		if (value === "") return;
-
-		const timeoutId = setTimeout(() => setQuery(value), 3000);
-
-		return () => {
-			clearTimeout(timeoutId);
+		const handler = ({ key }) => {
+			if (key === "Enter" && value.trim() !== "") setQuery(value);
 		};
-	}, [value]);
+
+		window.addEventListener("keydown", handler);
+
+		return () => window.removeEventListener("keydown", handler);
+	}, []);
 
 	return (
 		<div className="w-fit rounded-lg flex items-center px-1 py-0 space-x-1 ring-1 ring-gray-400">

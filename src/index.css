@@ -8,6 +8,31 @@
 		"Open Sans", "Helvetica Neue", sans-serif !important;
 }
 
+@theme {
+	--animate-wiggle: wiggle 1s ease-in-out infinite;
+	@keyframes wiggle {
+		0%,
+		100% {
+			transform: scaleY(0.5);
+		}
+		50% {
+			transform: scaleY(1);
+		}
+	}
+
+	--animate-reveal: reveal 0.85s ease-in-out forwards;
+	@keyframes reveal {
+		from {
+			opacity: 0;
+			transform: scale(0.98);
+		}
+		to {
+			opacity: 1;
+			transform: scale(1);
+		}
+	}
+}
+
 @layer base {
 	button {
 		@apply shrink-0 relative text-nowrap transition-all duration-150 w-fit h-fit rounded-md outline-none cursor-pointer px-4 py-1.5 m-1 text-base text-white bg-gray-950 hover:bg-gray-950/90 border-2 border-transparent active:border-gray-950 active:bg-gray-950/70;
@@ -60,6 +85,10 @@
 	.btn-third {
 		@apply bg-gray-100 hover:bg-gray-200
 		active:bg-gray-950/20 border-2 border-transparent text-slate-950 shadow-sm ring-1 ring-gray-200;
+	}
+
+	.btn-small {
+		@apply px-3 py-1 text-xs rounded;
 	}
 }
 
