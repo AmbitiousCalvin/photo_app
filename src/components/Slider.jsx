@@ -59,6 +59,7 @@ function Slider({
 		setHidden([atStart, atEnd]);
 	};
 
+	// transparent styles around edges if it is scrollable
 	const maskStyle = scrollable
 		? {
 				WebkitMaskImage: `linear-gradient(to right,
@@ -74,6 +75,7 @@ function Slider({
 		  }
 		: {};
 
+	// styles for showing a selected button
 	const selectedStyles = (isSelected) => {
 		if (isSelected)
 			return "[&&&]:rounded-full bg-gray-950 hover:bg-gray-950/90 active:bg-gray-950/70 text-white ";
@@ -98,7 +100,8 @@ function Slider({
 				</Icon>
 			)}
 
-			{childrenArray.length === 0 && (
+			{/* if only options is provided, display in default way */}
+			{childrenArray.length === 0 && options.length !== 0 && (
 				<div
 					ref={sliderContentRef}
 					className="flex-1 overflow-x-auto whitespace-nowrap scrollbar-hidden scroll-smooth"
@@ -120,6 +123,7 @@ function Slider({
 				</div>
 			)}
 
+			{/* if children is provided, inject some extra code and display it */}
 			{Children.map(childrenArray, (child, index) => {
 				const {
 					children,
