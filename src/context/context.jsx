@@ -9,10 +9,25 @@ export function useMyContext() {
 }
 
 export function ContextProvider({ children }) {
-	const [query, setQuery] = useState("architecture");
+	const photoQueries = [
+		"sunset",
+		"mountains",
+		"city skyline",
+		"beach",
+		"forest",
+		"cats",
+		"space",
+		"food",
+		"architecture",
+		"street photography",
+	];
+
+	const randomIndex = Math.floor(Math.random() * photoQueries.length);
+
+	const [query, setQuery] = useState(photoQueries[randomIndex]);
 	const [showHeader, setShowHeader] = useState(false);
 
-	useEventListener("scroll", (e) => {
+	useEventListener("scroll", () => {
 		setShowHeader(window.scrollY >= 500 ? true : false);
 	});
 

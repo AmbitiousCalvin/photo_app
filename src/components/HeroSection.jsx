@@ -1,43 +1,19 @@
 import { useState } from "react";
-import { Button, Icon } from "./Buttons";
+import { Icon } from "./Buttons";
 import { IoSearch } from "react-icons/io5";
 import { Dropdown, Option } from "./Dropdown";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import { MdOutlineSlowMotionVideo } from "react-icons/md";
-import Header from "./Header";
 
-const apiKey = import.meta.env.VITE_PEXELS_API_KEY;
-const client = createClient(apiKey);
-
-import { createClient } from "pexels";
-import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 
 function HeroSection() {
-	const query = "Nature";
-	const [photo, setPhoto] = useState({});
-
-	useEffect(() => {
-		const getPhoto = async () => {
-			try {
-				const photos = await client.photos.search({ query, per_page: 1 });
-
-				setPhoto(photos.photos[0]);
-			} catch (e) {
-				console.log(e);
-				setPhoto(null);
-			}
-		};
-
-		getPhoto();
-	}, []);
-
 	return (
 		<section
 			className="h-[545px] padding-normal border-none flex flex-col items-center justify-center gap-2 bg-no-repeat bg-cover bg-center"
 			style={{
-				backgroundImage: `url(/src/assets/background.jpeg)`,
+				backgroundImage: `url(/background.jpeg)`,
 			}}
 		>
 			<div className="w-[clamp(250px,95%,600px)] flex flex-col items-center gap-4 justify-center px-1">
