@@ -1,4 +1,4 @@
-import { Button, LoadingIcon } from "../components/Buttons.jsx";
+import { Button } from "../components/Buttons.jsx";
 import { MenuIcon, Logo, SearchBar } from "../components/Header.jsx";
 import { Dropdown } from "../components/Dropdown.jsx";
 import Slider from "../components/Slider.jsx";
@@ -6,12 +6,21 @@ import PhotoGrid from "../components/PhotoGrid.jsx";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import { MdOutlineSlowMotionVideo } from "react-icons/md";
 import useEventListener from "../hooks/useEventListener.jsx";
-
-import { useState } from "react";
+import LoadingScreen from "../components/LoadingScreen.jsx";
+import { useState, useEffect } from "react";
 
 function PhotosPage() {
+	const [isLoaded, setIsLoaded] = useState(false);
+
+	useEffect(() => {
+		setTimeout(() => {
+			setIsLoaded(true);
+		}, 1500);
+	}, []);
+
 	return (
 		<>
+			{!isLoaded && <LoadingScreen></LoadingScreen>}
 			<Header></Header>
 			<Slider storage_id={"photo_query"} className={"my-2 mb-5"}></Slider>
 			<PhotoGrid></PhotoGrid>

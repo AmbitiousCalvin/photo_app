@@ -3,9 +3,9 @@ import { createClient } from "pexels";
 import ImgModule from "./ImageModule";
 import { useParams } from "react-router-dom";
 import { Masonry } from "masonic";
-import LoadingScreen from "./LoadingScreen";
 import { useState, useEffect } from "react";
 import { LoadingIcon } from "./Buttons";
+import { useRef } from "react";
 
 const apiKey = import.meta.env.VITE_PEXELS_API_KEY;
 const client = createClient(apiKey);
@@ -14,6 +14,7 @@ function PhotoGrid() {
 	const { query } = useParams();
 	const [allPhotos, setAllPhotos] = useState([]);
 	const [lastFetchedLength, setLastFetchedLength] = useState(0);
+	const prevQueryRef = useRef(query);
 
 	const {
 		data,
@@ -41,15 +42,19 @@ function PhotoGrid() {
 
 	useEffect(() => {
 		if (!data) return;
+		const isEqual = prevQueryRef.current === query;
 
-		const newPages = data.pages.slice(lastFetchedLength);
+		const newPages = data.pages.slice(isEqual ? lastFetchedLength : 0);
 		const newPhotos = newPages.flatMap((page) => page.photos);
 
 		if (newPhotos.length > 0) {
-			setAllPhotos((prev) => [...prev, ...newPhotos]);
-			setLastFetchedLength(data.pages.length);
+			setAllPhotos((prev) => {
+				if (!isEqual) return [...newPhotos];
+				return [...prev, ...newPhotos];
+			});
+			setLastFetchedLength(isEqual ? data.pages.length : 0);
 		}
-	}, [data]);
+	}, [data, query]);
 
 	if (status === "pending")
 		return (

@@ -33,7 +33,7 @@ function ImgModule({ index, width, data: photo }) {
 
 			<img
 				src={photo?.src?.large}
-				alt={photo?.alt || "Image"}
+				alt={photo?.alt || "Image from pexels"}
 				onLoad={() => setIsLoaded(true)}
 				className={`relative z-10 object-cover w-full h-auto rounded-sm transition-opacity duration-700 ease-in-out ${
 					isLoaded ? "opacity-100" : "opacity-0"
@@ -58,6 +58,7 @@ function ImgModule({ index, width, data: photo }) {
 
 				<div className="grow"></div>
 				<Button
+					onClick={() => downloadImage(photo?.src?.original)}
 					className="btn-secondary m-0 flex items-center gap-2 px-3 py-1.5
 					 bg-emerald-400 text-white font-medium
 					 border border-emerald-500

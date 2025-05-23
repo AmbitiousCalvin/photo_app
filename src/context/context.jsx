@@ -1,5 +1,6 @@
 import { useContext, createContext, useState } from "react";
 import useEventListener from "../hooks/useEventListener";
+import { useEffect } from "react";
 
 const MyContext = createContext();
 
@@ -14,6 +15,10 @@ export function ContextProvider({ children }) {
 	useEventListener("scroll", (e) => {
 		setShowHeader(window.scrollY >= 500 ? true : false);
 	});
+
+	useEffect(() => {
+		console.log(query);
+	}, [query]);
 
 	return (
 		<MyContext.Provider
