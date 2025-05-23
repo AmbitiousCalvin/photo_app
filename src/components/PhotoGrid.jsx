@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useMyContext } from "../context";
 
-import ImgModule from "./ImageModule";
 import { Button } from "../components/Buttons";
 import { createClient } from "pexels";
 import { Dropdown, Option } from "./Dropdown";
 import { FaCheck } from "react-icons/fa6";
+import ImgModule from "./ImageModule";
 
-import { useMyContext } from "../context";
-import { useEffect } from "react";
-
-const client = createClient(
-	"P3KeC5CvYDfcp3brfSziJUx1FC2ghTYqfPu8uooxevb5eMLzwECThv7h"
-);
+const apiKey = import.meta.env.VITE_PEXELS_API_KEY;
+const client = createClient(apiKey);
 
 function PhotoGrid() {
 	const { query } = useMyContext();
@@ -56,10 +53,11 @@ function PhotoGrid() {
 
 	return (
 		<>
-			<div className="w-full padding-normal mx-3 my-2 flex items-center justify-between">
+			<div className="w-full padding-normal [&&]:px-6 my-2 flex items-center justify-between">
 				<h1 className="text-2xl font-sans text-black">Free Stock Photos</h1>
 				<CustomDropdown></CustomDropdown>
 			</div>
+
 			<section className="padding-normal mx-3 columns-[280px] md:columns-[320px]">
 				{data.pages.map((group, i) => {
 					return (

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Button, Icon, ArrowIcon } from "./Buttons";
-import { useEffect } from "react";
+import { Button, ArrowIcon } from "./Buttons";
 
 function Option({ className, children, selected, ...rest }) {
 	return (
@@ -35,27 +34,7 @@ function Dropdown({
 					<ArrowIcon></ArrowIcon>
 				</div>
 
-				<div
-					className="
-                        -z-10
-                        absolute
-                        top-[100%]
-                        left-1/2 -translate-x-1/2
-                        opacity-0
-						pointer-events-none
-						group-hover:pointer-events-auto
-                        group-hover:opacity-100
-                        group-hover:top-[150%]
-                        group-hover:z-10
-
-
-                        transition-all duration-150 ease-in
-                        w-fit bg-white shadow-lg p-1.5 
-                        rounded-lg
-                        flex flex-col
-                        ring-1 ring-gray-200
-                        "
-				>
+				<div className="dropdown-element">
 					{React.Children.map(childrenArray, (child, index) => {
 						const { children, ...restProps } = child.props;
 						return (

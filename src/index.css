@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Chewy&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Chewy&family=Roboto:ital,wght@0,100..900;1,100..900&family=Tangerine:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Chewy&family=Henny+Penny&family=Roboto:ital,wght@0,100..900;1,100..900&family=Tangerine:wght@400;700&display=swap");
 
 * {
 	font-family: "Roboto", Arial, Helvetica, sans-serif, system-ui, -apple-system,
@@ -31,21 +32,42 @@
 			transform: scale(1);
 		}
 	}
+
+	--animate-opacity: opacity 0.25s ease-in-out;
+	@keyframes opacity {
+		from {
+			transform: translateY(-20%);
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0%);
+		}
+	}
 }
 
 @layer base {
 	button {
-		@apply shrink-0 relative text-nowrap transition-all duration-150 w-fit h-fit rounded-md outline-none cursor-pointer px-4 py-1.5 m-1 text-base text-white bg-gray-950 hover:bg-gray-950/90 border-2 border-transparent active:border-gray-950 active:bg-gray-950/70;
+		@apply font-semibold shrink-0 relative text-nowrap transition-all duration-200 w-fit h-fit rounded-md outline-none cursor-pointer px-4 py-1.5 m-1 text-base text-white bg-gray-950 hover:bg-gray-950/90 border-2 border-transparent active:border-gray-950 active:bg-gray-950/70;
 	}
 }
 
 @layer utilities {
+	.font-fancy {
+		font-family: "Chewy", Arial, Helvetica, sans-serif !important;
+	}
+
+	.pos-sticky {
+		position: sticky;
+		top: 0;
+	}
+
 	.text-icon {
 		@apply text-2xl;
 	}
 
 	.padding-normal {
-		@apply transition-[padding] duration-150 px-2 sm:px-4 py-2;
+		@apply transition-[padding] duration-150 px-3 sm:px-4 py-2;
 	}
 
 	.scrollbar-hidden::-webkit-scrollbar {
@@ -71,7 +93,7 @@
 	}
 
 	.icon-secondary {
-		@apply bg-transparent text-black border-none hover:bg-gray-200 active:bg-gray-950/20 p-2 flex items-center justify-center;
+		@apply bg-transparent text-black border-2 hover:bg-gray-200 active:bg-gray-950/20 p-2 flex items-center justify-center border-transparent;
 	}
 
 	.btn-primary {
@@ -79,7 +101,7 @@
 	}
 
 	.btn-secondary {
-		@apply active:bg-transparent active:text-black;
+		@apply bg-transparent text-white hover:bg-gray-950/20 active:bg-gray-950/50 border-transparent  transition-all;
 	}
 
 	.btn-third {
@@ -89,6 +111,26 @@
 
 	.btn-small {
 		@apply px-3 py-1 text-xs rounded;
+	}
+
+	.dropdown-element {
+		@apply -z-10
+		absolute
+		top-[100%]
+		left-1/2 -translate-x-1/2
+		opacity-0
+		pointer-events-none
+		group-hover:pointer-events-auto
+		group-hover:opacity-100
+		group-hover:top-[150%]
+		group-hover:z-10
+
+
+		transition-all duration-150 ease-in
+		w-fit bg-white shadow-lg p-1.5 
+		rounded-lg
+		flex flex-col
+		ring-1 ring-gray-200;
 	}
 }
 
