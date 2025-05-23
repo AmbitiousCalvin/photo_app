@@ -11,6 +11,8 @@ const client = createClient(apiKey);
 
 import { createClient } from "pexels";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useRef } from "react";
 
 function HeroSection() {
 	const query = "Nature";
@@ -50,8 +52,22 @@ function HeroSection() {
 }
 
 function SearchBar({ placeholder = "", type = "text" }) {
+	const [value, setValue] = useState("");
+	const navigate = useNavigate();
+	const inputRef = useRef(null);
+
+	const submitQuery = (e) => {
+		e.preventDefault();
+		if (value.trim() === "") return;
+		navigate(`/photos/${encodeURIComponent(value)}`);
+		setValue("");
+	};
+
 	return (
-		<div className="group w-full h-15 transition-[width] duration-150 rounded-lg flex items-center p-1.5 space-x-1 ring-1 ring-gray-100 shadow-md bg-gray-50 ">
+		<div
+			onClick={() => inputRef.current?.focus()}
+			className="group w-full h-15 transition-[width] duration-150 rounded-lg flex items-center p-1.5 space-x-1 ring-1 ring-gray-100 shadow-md bg-gray-50 "
+		>
 			<Dropdown
 				className={
 					"btn-third py-2 h-full bg-white hover:bg-gray-200 hover:ring-1 hover:ring-gray-300"
@@ -66,12 +82,19 @@ function SearchBar({ placeholder = "", type = "text" }) {
 					Videos
 				</Option>
 			</Dropdown>
-			<input
-				type={type}
-				className="outline-none w-full px-4 h-full font-semibold"
-				placeholder={placeholder}
-			></input>
+
+			<form onSubmit={submitQuery} className="flex-grow min-w-0 w-full">
+				<input
+					value={value}
+					ref={inputRef}
+					onChange={(e) => setValue(e.target.value)}
+					type={type}
+					className="outline-none px-4 font-semibold caret-gray-950"
+					placeholder={placeholder}
+				></input>
+			</form>
 			<Icon
+				onClick={submitQuery}
 				className={
 					"group-hover:opacity-100 opacity-[0.4] rounded-md icon-square icon-secondary"
 				}

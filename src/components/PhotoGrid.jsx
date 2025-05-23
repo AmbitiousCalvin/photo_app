@@ -3,12 +3,14 @@ import { createClient } from "pexels";
 import ImgModule from "./ImageModule";
 import { useParams } from "react-router-dom";
 import { Masonry } from "masonic";
+import LoadingScreen from "./LoadingScreen";
 import { useState, useEffect } from "react";
+import { LoadingIcon } from "./Buttons";
 
 const apiKey = import.meta.env.VITE_PEXELS_API_KEY;
 const client = createClient(apiKey);
 
-function PhotoGrid({ children }) {
+function PhotoGrid() {
 	const { query } = useParams();
 	const [allPhotos, setAllPhotos] = useState([]);
 	const [lastFetchedLength, setLastFetchedLength] = useState(0);
@@ -51,10 +53,8 @@ function PhotoGrid({ children }) {
 
 	if (status === "pending")
 		return (
-			<section className="padding-normal w-full h-10 flex items-center justify-center">
-				<h1 className="text-4xl  font-semibold text-shadow-lg text-shadow-green-200 text-emerald-500">
-					Loading ...
-				</h1>
+			<section className="w-full h-[calc(100vh-45vh)] flex items-center justify-center">
+				<LoadingIcon></LoadingIcon>
 			</section>
 		);
 
@@ -64,7 +64,6 @@ function PhotoGrid({ children }) {
 
 	return (
 		<>
-			{children}
 			<section className="padding-normal mx-3">
 				<Masonry
 					items={allPhotos}

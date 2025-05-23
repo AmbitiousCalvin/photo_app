@@ -19,13 +19,11 @@ function HomePage() {
 					<Button className={"btn-third rounded-md"}>Explore</Button>
 				</Slider>
 			</div>
-			<PhotoGrid>
-				<div className="w-full padding-normal [&&]:px-6 my-2 flex items-center justify-between">
-					<h1 className="text-2xl font-sans text-black">Free Stock Photos</h1>
-					<CustomDropdown></CustomDropdown>
-				</div>
-			</PhotoGrid>
-			<LoadingIcon></LoadingIcon>{" "}
+			<div className="w-full padding-normal [&&]:px-6 my-2 flex items-center justify-between">
+				<h1 className="text-2xl font-sans text-black">Free Stock Photos</h1>
+				<CustomDropdown></CustomDropdown>
+			</div>
+			<PhotoGrid></PhotoGrid>
 		</>
 	);
 }

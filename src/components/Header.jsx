@@ -46,7 +46,7 @@ function Header() {
 						className={
 							!showHeader
 								? "rounded-full btn-third ring-0 h-full bg-transparent  hover:bg-gray-950/25 active:bg-gray-950/40 text-white shadow-none font-semibold"
-								: "btn-primary rounded-full pl-3"
+								: "btn-primary rounded-full pl-4 max-sm:pl-3"
 						}
 					>
 						<Option>
@@ -60,7 +60,7 @@ function Header() {
 					</Dropdown>
 					<Button
 						className={`${
-							showHeader ? "btn-primary" : "btn-secondary"
+							showHeader ? "pl-6 btn-primary" : "btn-secondary"
 						} hidden sm:flex`}
 					>
 						Join
@@ -130,7 +130,7 @@ export function SearchBar({
 						</Option>
 					</Dropdown>
 
-					<form onSubmit={submitQuery} className="w-full">
+					<form onSubmit={submitQuery} className="flex-grow min-w-0 w-full">
 						<input
 							value={value}
 							ref={inputRef}

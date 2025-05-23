@@ -15,7 +15,6 @@ function PhotosPage() {
 			<Header></Header>
 			<Slider storage_id={"photo_query"} className={"my-2 mb-5"}></Slider>
 			<PhotoGrid></PhotoGrid>
-			<LoadingIcon></LoadingIcon>{" "}
 		</>
 	);
 }
@@ -54,7 +53,7 @@ function Header() {
 				<div className="flex items-center">
 					<Dropdown
 						text={"Explore"}
-						className={"btn-primary rounded-full pl-3"}
+						className={"btn-primary rounded-full pl-4 max-sm:pl-3"}
 					>
 						<Option>
 							<HiOutlinePhotograph className="text-icon"></HiOutlinePhotograph>
