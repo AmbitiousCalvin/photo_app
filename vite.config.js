@@ -4,6 +4,6 @@ import react from "@vitejs/plugin-react";
 
 // https://vite.dev/config/
 export default defineConfig({
-	base: "/photo_app/",
+	base: "/photo_app",
 	plugins: [react(), tailwindcss()],
 });
