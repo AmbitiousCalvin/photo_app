@@ -3,7 +3,7 @@ import { Icon, Button } from "./Buttons";
 import { FaArrowRight } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
 import { Children } from "react";
-import { useMyContext } from "../context";
+import { useMyContext } from "../context/context";
 import { useLocalStorage } from "../hooks/useStorage";
 
 const photoTags = [

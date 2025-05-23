@@ -1,5 +1,5 @@
 import { useContext, createContext, useState } from "react";
-import useEventListener from "./hooks/useEventListener.jsx";
+import useEventListener from "../hooks/useEventListener";
 
 const MyContext = createContext();
 

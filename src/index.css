@@ -105,7 +105,7 @@
 	}
 
 	.icon-secondary {
-		@apply bg-transparent text-black border-2 hover:bg-gray-200 active:bg-gray-950/20 p-2 flex items-center justify-center border-transparent;
+		@apply bg-transparent text-gray-800 border-2 hover:bg-gray-200 active:bg-gray-950/15 p-2 flex items-center justify-center border-transparent;
 	}
 
 	.btn-primary {

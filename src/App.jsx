@@ -3,7 +3,7 @@
 // import Slider from "./components/Slider.jsx";
 // import HeroSection from "./components/HeroSection.jsx";
 // import PhotoGrid from "./components/PhotoGrid.jsx";
-import { ContextProvider } from "./context.jsx";
+import { ContextProvider } from "./context/context.jsx";
 import HomePage from "./pages/Homepage.jsx";
 import PhotosPage from "./pages/PhotosPage.jsx";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";

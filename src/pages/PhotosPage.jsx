@@ -4,7 +4,7 @@ import { MenuIcon, Logo, SearchBar } from "../components/Header.jsx";
 import { Dropdown } from "../components/Dropdown.jsx";
 import Slider from "../components/Slider.jsx";
 import PhotoGrid from "../components/PhotoGrid.jsx";
-import { useMyContext } from "../context.jsx";
+import { useMyContext } from "../context/context.jsx";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import { MdOutlineSlowMotionVideo } from "react-icons/md";
 import useEventListener from "../hooks/useEventListener.jsx";
@@ -26,6 +26,7 @@ function PhotosPage() {
 function Header() {
 	const { setQuery } = useMyContext();
 	const [isScrolling, setIsScrolling] = useState(false);
+	const [showSidebar, setShowSidebar] = useState(false);
 
 	useEventListener("scroll", (e) =>
 		setIsScrolling(window.scrollY > 100 ? true : false)
@@ -33,14 +34,20 @@ function Header() {
 
 	const shadowStyles = isScrolling ? "shadow-sm shadow-gray-200" : "";
 
+	useEventListener("resize", () => {
+		if (window.innerWidth > 768) setShowSidebar(false);
+	});
+
 	return (
 		<header
 			className={`sticky top-0 padding-normal flex items-center w-full gap-2 h-20 z-50 bg-white text-black ${shadowStyles}`}
 		>
-			<Logo></Logo>
+			{!showSidebar && <Logo></Logo>}
 
 			<div className="relative grow ml-2 md:px-2 flex justify-end md:justify-center">
 				<SearchBar
+					showSidebar={showSidebar}
+					setShowSidebar={setShowSidebar}
 					showHeader={true}
 					setQuery={setQuery}
 					placeholder={"Search for free photos"}
@@ -48,20 +55,25 @@ function Header() {
 				></SearchBar>
 			</div>
 
-			<div className="flex items-center">
-				<Dropdown text={"Explore"} className={"btn-primary rounded-full pl-3"}>
-					<Option>
-						<HiOutlinePhotograph className="text-icon"></HiOutlinePhotograph>
-						Photos
-					</Option>
-					<Option>
-						<MdOutlineSlowMotionVideo className="text-icon"></MdOutlineSlowMotionVideo>
-						Videos
-					</Option>
-				</Dropdown>
-				<Button className={`btn-primary hidden md:flex`}>Join</Button>
-				<MenuIcon showHeader={true}></MenuIcon>
-			</div>
+			{!showSidebar && (
+				<div className="flex items-center">
+					<Dropdown
+						text={"Explore"}
+						className={"btn-primary rounded-full pl-3"}
+					>
+						<Option>
+							<HiOutlinePhotograph className="text-icon"></HiOutlinePhotograph>
+							Photos
+						</Option>
+						<Option>
+							<MdOutlineSlowMotionVideo className="text-icon"></MdOutlineSlowMotionVideo>
+							Videos
+						</Option>
+					</Dropdown>
+					<Button className={`btn-primary hidden md:flex`}>Join</Button>
+					<MenuIcon showHeader={true}></MenuIcon>
+				</div>
+			)}
 		</header>
 	);
 }

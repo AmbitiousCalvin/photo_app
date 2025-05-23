@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button, Icon } from "./Buttons";
 import { IoSearch } from "react-icons/io5";
 import { Dropdown, Option } from "./Dropdown";
 import { useEffect } from "react";
-import { useMyContext } from "../context";
+import { useMyContext } from "../context/context";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import { MdOutlineSlowMotionVideo } from "react-icons/md";
+import { IoClose } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import useEventListener from "../hooks/useEventListener";
 
 function Header() {
 	const { setQuery, showHeader } = useMyContext();
@@ -15,6 +17,11 @@ function Header() {
 	const headerStyles = !showHeader
 		? "absolute z-auto bg-transparent text-white animate-show"
 		: "fixed z-50 bg-white animate-opacity text-black shadow-sm";
+
+	// temporary fix for the search bar styles being weird as screen gets wider
+	useEventListener("resize", () => {
+		if (window.innerWidth > 768) setShowSidebar(false);
+	});
 
 	return (
 		<header
@@ -75,7 +82,13 @@ export function SearchBar({
 	setShowSidebar,
 }) {
 	const [value, setValue] = useState("");
-	const activeStyles = showSidebar ? "flex" : "hidden";
+
+	const inputRef = useRef(null);
+	const submitQuery = () => {
+		if (value.trim() === "") return;
+		setQuery(value);
+		setValue("");
+	};
 
 	useEffect(() => {
 		const handler = ({ key }) => {
@@ -87,11 +100,21 @@ export function SearchBar({
 		return () => window.removeEventListener("keydown", handler);
 	}, [value]);
 
+	useEffect(() => {
+		if (showSidebar) inputRef.current?.focus();
+	}, [showSidebar]);
+
+	const activeStyles = showSidebar
+		? "max-md:flex max-md:bg-transparent max-md:ring-2 max-md:ring-gray-200 w-full"
+		: "max-md:hidden md:w-full max-w-[545px]";
+
 	return (
 		<>
 			{showHeader && !showSidebar && (
 				<Icon
-					onClick={() => setShowSidebar((prev) => !prev)}
+					onClick={() => {
+						setShowSidebar((prev) => !prev);
+					}}
 					className={"rounded-md icon-square md:hidden"}
 				>
 					<IoSearch></IoSearch>
@@ -99,11 +122,11 @@ export function SearchBar({
 			)}
 			{(showHeader || showSidebar) && (
 				<div
-					className={`${activeStyles} md:flex group w-full transition-[width] duration-150 rounded-md items-center space-x-1 bg-gray-100 px-1.5`}
+					className={`${activeStyles} md:flex group transition-[width] duration-150 rounded-md items-center space-x-1 bg-gray-100 px-1.5`}
 				>
 					<Dropdown
 						className={
-							"btn-third bg-white hover:bg-gray-200 hover:ring-1 hover:ring-gray-300"
+							"btn-third bg-white hover:bg-gray-100 hover:ring-1 hover:ring-gray-300"
 						}
 					>
 						<Option>
@@ -115,14 +138,34 @@ export function SearchBar({
 							Videos
 						</Option>
 					</Dropdown>
+
 					<input
+						value={value}
+						ref={inputRef}
+						onChange={(e) => setValue(e.target.value)}
 						type={type}
-						className="outline-none w-full px-4 font-semibold"
+						className="outline-none w-full px-4 font-semibold caret-gray-950"
 						placeholder={placeholder}
 					></input>
+
+					{/* clear searchbar icon */}
 					<Icon
+						onClick={() => {
+							setShowSidebar(false);
+							setValue("");
+						}}
 						className={
-							"group-hover:opacity-100 opacity-[0.4] rounded-md icon-square icon-secondary"
+							"md:hidden  group-hover:opacity-100 group-focus:opacity-100 opacity-[0.4] rounded-md icon-square icon-secondary"
+						}
+					>
+						<IoClose className="text-icon"></IoClose>
+					</Icon>
+
+					{/* Click to search the query icon */}
+					<Icon
+						onClick={submitQuery}
+						className={
+							"group-hover:opacity-100 group-focus:opacity-100 opacity-[0.4] rounded-md icon-square icon-secondary"
 						}
 					>
 						<IoSearch className="text-icon"></IoSearch>

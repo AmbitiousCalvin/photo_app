@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useMyContext } from "../context";
+import { useMyContext } from "../context/context";
 
 import { Button } from "../components/Buttons";
 import { createClient } from "pexels";
