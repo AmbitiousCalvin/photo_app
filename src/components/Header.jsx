@@ -64,7 +64,7 @@ function Header() {
 					</Dropdown>
 					<Button
 						className={`${
-							showHeader ? "pl-6 btn-primary" : "btn-secondary"
+							showHeader ? "btn-primary" : "btn-secondary"
 						} hidden sm:flex`}
 					>
 						Join
