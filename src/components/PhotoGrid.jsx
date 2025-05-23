@@ -53,7 +53,7 @@ function PhotoGrid() {
 
 	if (status === "pending")
 		return (
-			<section className="w-full h-[calc(100vh-45vh)] flex items-center justify-center">
+			<section className="padding-normal w-full h-[calc(100vh-45vh)] flex items-center justify-center">
 				<LoadingIcon></LoadingIcon>
 			</section>
 		);

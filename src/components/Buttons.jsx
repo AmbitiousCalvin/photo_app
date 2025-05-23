@@ -28,7 +28,7 @@ function LoadingIcon({ duration = 1 }) {
 
 	return (
 		<>
-			<div className="flex flex-items-center justify-center gap-2">
+			<div className="disable-scroll flex flex-items-center justify-center gap-2">
 				{animationDelays.map((delay, index) => (
 					<div
 						key={index}

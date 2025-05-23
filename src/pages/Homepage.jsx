@@ -3,13 +3,24 @@ import { Button, LoadingIcon } from "../components/Buttons.jsx";
 import Header from "../components/Header.jsx";
 import Slider from "../components/Slider.jsx";
 import PhotoGrid from "../components/PhotoGrid.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Dropdown, Option } from "../components/Dropdown.jsx";
 import { FaCheck } from "react-icons/fa";
+import LoadingScreen from "../components/LoadingScreen.jsx";
 
 function HomePage() {
+	const [isLoaded, setIsLoaded] = useState(false);
+
+	useEffect(() => {
+		setTimeout(() => {
+			setIsLoaded(true);
+		}, 3000);
+	}, []);
+
 	return (
 		<>
+			{!isLoaded && <LoadingScreen></LoadingScreen>}
+
 			<Header></Header>
 			<HeroSection></HeroSection>
 			<div className="w-full flex items-center justify-center padding-normal my-2">

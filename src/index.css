@@ -9,6 +9,10 @@
 		"Open Sans", "Helvetica Neue", sans-serif !important;
 }
 
+body:has(.disable-scroll)::-webkit-scrollbar {
+	display: none;
+}
+
 @theme {
 	--animate-img-reveal: img_reveal 400ms ease-in-out forwards;
 	@keyframes img_reveal {

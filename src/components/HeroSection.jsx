@@ -35,7 +35,7 @@ function HeroSection() {
 
 	return (
 		<section
-			className="h-[545px] padding-normal border-none flex flex-col items-center justify-center gap-2 bg-no-repeat bg-cover bg-center bg-gray-950"
+			className="h-[545px] padding-normal border-none flex flex-col items-center justify-center gap-2 bg-no-repeat bg-cover bg-center"
 			style={{
 				backgroundImage: `url(/src/assets/background.jpeg)`,
 			}}
