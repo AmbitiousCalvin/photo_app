@@ -13,15 +13,18 @@ function Header() {
 	const { setQuery, showHeader } = useMyContext();
 
 	const headerStyles = !showHeader
-		? "absolute top-0 padding-normal z-auto flex items-center w-full space-x-5 bg-transparent text-white"
-		: "fixed top-0 padding-normal z-50 flex items-center w-full space-x-5 animate-opacity bg-white/90 text-black shadow-lg backdrop-blur-md ";
+		? "absolute z-auto bg-transparent text-white animate-show"
+		: "fixed z-50 flex items-center w-full bg-white/90 text-black shadow-lg backdrop-blur-md animate-opacity";
 
 	return (
-		<header className={headerStyles}>
+		<header
+			className={`top-0 padding-normal flex items-center w-full gap-2 ${headerStyles}`}
+		>
 			<Logo></Logo>
 
-			<div className="grow flex justify-center">
+			<div className="relative grow ml-2 sm:px-2 flex justify-end sm:justify-center">
 				<SearchBar
+					showHeader={showHeader}
 					setQuery={setQuery}
 					placeholder={"Search for free photos"}
 					type="text"
@@ -34,7 +37,7 @@ function Header() {
 					className={
 						!showHeader
 							? "rounded-full btn-third ring-0 h-full bg-transparent  hover:bg-gray-950/25 active:bg-gray-950/40 text-white shadow-none font-semibold"
-							: "btn-primary rounded-full pl-4"
+							: "btn-primary rounded-full pl-3"
 					}
 				>
 					<Option>
@@ -46,7 +49,11 @@ function Header() {
 						Videos
 					</Option>
 				</Dropdown>
-				<Button className={`${showHeader ? "btn-primary" : "btn-secondary"}`}>
+				<Button
+					className={`${
+						showHeader ? "btn-primary" : "btn-secondary"
+					} hidden sm:flex`}
+				>
 					Join
 				</Button>
 				<MenuIcon showHeader={showHeader}></MenuIcon>
@@ -55,7 +62,7 @@ function Header() {
 	);
 }
 
-function SearchBar({ placeholder, type, setQuery }) {
+function SearchBar({ placeholder, type, setQuery, showHeader }) {
 	const [value, setValue] = useState("");
 
 	useEffect(() => {
@@ -66,21 +73,30 @@ function SearchBar({ placeholder, type, setQuery }) {
 		window.addEventListener("keydown", handler);
 
 		return () => window.removeEventListener("keydown", handler);
-	}, []);
+	}, [value]);
 
 	return (
-		<div className="w-fit rounded-lg flex items-center px-1 py-0 space-x-1 ring-1 ring-gray-400">
-			<input
-				value={value}
-				onChange={(e) => setValue(e.target.value)}
-				type={type}
-				className="outline-none w-full px-4 font-semibold"
-				placeholder={placeholder}
-			></input>
-			<Icon className={"rounded-md icon-square"}>
-				<IoSearchOutline></IoSearchOutline>
-			</Icon>
-		</div>
+		<>
+			{showHeader && (
+				<Icon className={"rounded-md icon-square sm:hidden"}>
+					<IoSearchOutline></IoSearchOutline>
+				</Icon>
+			)}
+			{showHeader && (
+				<div className="hidden sm:flex w-fit rounded-lg items-center px-1 py-0 space-x-1 ring-1 ring-gray-400">
+					<input
+						value={value}
+						onChange={(e) => setValue(e.target.value)}
+						type={type}
+						className="outline-none w-full px-4 font-semibold"
+						placeholder={placeholder}
+					></input>
+					<Icon className={"rounded-md icon-square"}>
+						<IoSearchOutline></IoSearchOutline>
+					</Icon>
+				</div>
+			)}
+		</>
 	);
 }
 

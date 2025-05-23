@@ -38,7 +38,6 @@ function HeroSection() {
 				backgroundImage: `url(${photo?.src?.original})`,
 			}}
 		>
-			<Header></Header>
 
 			<div className="w-[clamp(250px,95%,600px)] flex flex-col items-center gap-4 justify-center px-1">
 				<h1 className="text-[clamp(1.5rem,3vw,2rem)] text-left text-white font-semibold leading-tight text-shadow-lg ">

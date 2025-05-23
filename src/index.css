@@ -33,15 +33,27 @@
 		}
 	}
 
-	--animate-opacity: opacity 0.25s ease-in-out;
+	--animate-show: show 0.35s forwards;
+	@keyframes show {
+		from {
+			z-index: -100;
+			display: none;
+		}
+		to {
+			z-index: 50;
+			display: flex;
+		}
+	}
+
+	--animate-opacity: opacity 0.35s ease-in-out forwards;
 	@keyframes opacity {
 		from {
 			transform: translateY(-20%);
 			opacity: 0;
 		}
 		to {
-			opacity: 1;
 			transform: translateY(0%);
+			opacity: 1;
 		}
 	}
 }
