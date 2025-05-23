@@ -8,7 +8,7 @@ export function useMyContext() {
 }
 
 export function ContextProvider({ children }) {
-	const [query, setQuery] = useState("landscapes");
+	const [query, setQuery] = useState("architecture");
 	const [showHeader, setShowHeader] = useState(false);
 
 	useEventListener("scroll", (e) => {

@@ -8,14 +8,14 @@ function ImgModule({ photo }) {
 	return (
 		<div
 			key={photo?.id}
-			className={`relative group overflow-hidden w-full h-full border-2 border-green-500 shadow-md shadow-gray-500 rounded-lg mb-4 transition-opacity duration-700
-		  ${isLoaded ? "opacity-100" : "opacity-0"} empty:hidden`}
+			className={`relative group overflow-hidden w-full h-full rounded-lg mb-4 transition-opacity duration-700
+				${isLoaded ? "opacity-100 animate-img-reveal" : "opacity-0"} empty:hidden`}
 		>
 			<img
 				src={photo?.src?.large}
 				alt={photo?.alt || "Image"}
 				onLoad={() => setIsLoaded(true)}
-				className={`object-cover w-full h-auto rounded-md transition-opacity duration-700 ease-in-out
+				className={`object-cover w-full h-auto rounded-sm transition-opacity duration-700 ease-in-out
 			${isLoaded ? "opacity-100" : "opacity-0"}`}
 			/>
 			<div

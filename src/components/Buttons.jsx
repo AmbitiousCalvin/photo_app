@@ -24,18 +24,15 @@ function ArrowIcon() {
 }
 
 function LoadingIcon({ duration = 1 }) {
+	const animationDelays = [0, 0.2, 0.4, 0.2, 0.0];
+
 	return (
 		<>
 			<div className="flex flex-items-center justify-center gap-2">
-				{/* <div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-
-				<div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-				<div class="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div> */}
-
-				{[0, 0.2, 0.4, 0.2, 0.0].map((delay, index) => (
+				{animationDelays.map((delay, index) => (
 					<div
 						key={index}
-						className="w-2 h-13 bg-emerald-600 rounded-lg animate-wiggle"
+						className="w-2 h-18 bg-emerald-600 rounded-lg animate-wiggle"
 						style={{
 							animationDuration: `${duration}s`,
 							animationDelay: `${delay}s`,

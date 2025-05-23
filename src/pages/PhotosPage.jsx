@@ -1,14 +1,11 @@
-import HeroSection from "../components/HeroSection.jsx";
-import { Button, LoadingIcon, Icon } from "../components/Buttons.jsx";
+import { Button, LoadingIcon } from "../components/Buttons.jsx";
 import { MenuIcon, Logo, SearchBar } from "../components/Header.jsx";
 import { Dropdown } from "../components/Dropdown.jsx";
 import Slider from "../components/Slider.jsx";
 import PhotoGrid from "../components/PhotoGrid.jsx";
-import { useMyContext } from "../context/context.jsx";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import { MdOutlineSlowMotionVideo } from "react-icons/md";
 import useEventListener from "../hooks/useEventListener.jsx";
-import { IoSearch } from "react-icons/io5";
 
 import { useState } from "react";
 
@@ -24,7 +21,6 @@ function PhotosPage() {
 }
 
 function Header() {
-	const { setQuery } = useMyContext();
 	const [isScrolling, setIsScrolling] = useState(false);
 	const [showSidebar, setShowSidebar] = useState(false);
 
@@ -49,7 +45,6 @@ function Header() {
 					showSidebar={showSidebar}
 					setShowSidebar={setShowSidebar}
 					showHeader={true}
-					setQuery={setQuery}
 					placeholder={"Search for free photos"}
 					type="text"
 				></SearchBar>

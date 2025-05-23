@@ -4,9 +4,14 @@
 // import HeroSection from "./components/HeroSection.jsx";
 // import PhotoGrid from "./components/PhotoGrid.jsx";
 import { ContextProvider } from "./context/context.jsx";
-import HomePage from "./pages/Homepage.jsx";
-import PhotosPage from "./pages/PhotosPage.jsx";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import useLazyLoad from "./hooks/useLazyLoad.jsx";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React from "react";
+
+const HomePage = React.lazy(() => import("./pages/Homepage.jsx"));
+const PhotosPage = React.lazy(() => import("./pages/PhotosPage.jsx"));
+import LoadingScreen from "./components/LoadingScreen.jsx";
+import { Suspense } from "react";
 
 function App() {
 	return (
@@ -15,8 +20,24 @@ function App() {
 				<main className="h-auto">
 					<Router>
 						<Routes>
-							<Route path="/" element={<HomePage></HomePage>} />
-							<Route path="/photos" element={<PhotosPage></PhotosPage>} />
+							<Route
+								path="/"
+								element={
+									<Suspense fallback={<LoadingScreen />}>
+										<HomePage></HomePage>
+									</Suspense>
+								}
+							/>
+							<Route
+								path="/photos"
+								element={
+									<Suspense fallback={<LoadingScreen />}>
+										<PhotosPage />
+									</Suspense>
+								}
+							>
+								<Route path=":query" element={<PhotosPage />} />
+							</Route>
 						</Routes>
 					</Router>
 				</main>

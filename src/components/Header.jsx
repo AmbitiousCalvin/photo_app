@@ -7,11 +7,11 @@ import { useMyContext } from "../context/context";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import { MdOutlineSlowMotionVideo } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useEventListener from "../hooks/useEventListener";
 
 function Header() {
-	const { setQuery, showHeader } = useMyContext();
+	const { showHeader } = useMyContext();
 	const [showSidebar, setShowSidebar] = useState(false);
 
 	const headerStyles = !showHeader
@@ -34,7 +34,6 @@ function Header() {
 					showSidebar={showSidebar}
 					setShowSidebar={setShowSidebar}
 					showHeader={showHeader}
-					setQuery={setQuery}
 					placeholder={"Search for free photos"}
 					type="text"
 				></SearchBar>
@@ -76,29 +75,20 @@ function Header() {
 export function SearchBar({
 	placeholder,
 	type,
-	setQuery,
 	showHeader,
 	showSidebar,
 	setShowSidebar,
 }) {
 	const [value, setValue] = useState("");
+	const navigate = useNavigate();
 
 	const inputRef = useRef(null);
-	const submitQuery = () => {
+	const submitQuery = (e) => {
+		e.preventDefault();
 		if (value.trim() === "") return;
-		setQuery(value);
+		navigate(`/photos/${encodeURIComponent(value)}`);
 		setValue("");
 	};
-
-	useEffect(() => {
-		const handler = ({ key }) => {
-			if (key === "Enter" && value.trim() !== "") setQuery(value);
-		};
-
-		window.addEventListener("keydown", handler);
-
-		return () => window.removeEventListener("keydown", handler);
-	}, [value]);
 
 	useEffect(() => {
 		if (showSidebar) inputRef.current?.focus();
@@ -139,14 +129,16 @@ export function SearchBar({
 						</Option>
 					</Dropdown>
 
-					<input
-						value={value}
-						ref={inputRef}
-						onChange={(e) => setValue(e.target.value)}
-						type={type}
-						className="outline-none w-full px-4 font-semibold caret-gray-950"
-						placeholder={placeholder}
-					></input>
+					<form onSubmit={submitQuery} className="w-full">
+						<input
+							value={value}
+							ref={inputRef}
+							onChange={(e) => setValue(e.target.value)}
+							type={type}
+							className="outline-none px-4 font-semibold caret-gray-950"
+							placeholder={placeholder}
+						></input>
+					</form>
 
 					{/* clear searchbar icon */}
 					<Icon

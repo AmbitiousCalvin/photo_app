@@ -3,8 +3,8 @@ import { Icon, Button } from "./Buttons";
 import { FaArrowRight } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
 import { Children } from "react";
-import { useMyContext } from "../context/context";
 import { useLocalStorage } from "../hooks/useStorage";
+import { useNavigate } from "react-router-dom";
 
 const photoTags = [
 	"portrait",
@@ -47,7 +47,7 @@ function Slider({
 	const [isHidden, setHidden] = useState([true, false]);
 	const [selectedId, setSelectedId] = useLocalStorage(storage_id, 0);
 	const sliderContentRef = useRef(null);
-	const { setQuery } = useMyContext();
+	const naviagte = useNavigate();
 
 	const scrollSlider = (direction = 1) => {
 		const el = sliderContentRef.current;
@@ -114,13 +114,16 @@ function Slider({
 					<div className="inline-flex items-center space-x-2">
 						{options.map((option, index) => (
 							<Button
-								onClick={() => setSelectedId(index)}
+								onClick={(e) => {
+									setSelectedId(index);
+									naviagte(`/photos/${e.target.textContent}`);
+								}}
 								className={`btn-third w-fit text-black rounded-m ${selectedStyles(
 									index === selectedId
 								)}`}
 								key={index}
 							>
-								<p>{option}</p>
+								{option}
 							</Button>
 						))}
 					</div>
@@ -141,6 +144,7 @@ function Slider({
 						onClick={(e) => {
 							setSelectedId(index);
 							onClick(e, index);
+							naviagte(`/photos/${e.target.textContent}`);
 						}}
 						key={index}
 						{...rest}

@@ -1,18 +1,17 @@
-import React, { useState } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { useMyContext } from "../context/context";
+"use server";
 
+import React from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { Button } from "../components/Buttons";
 import { createClient } from "pexels";
-import { Dropdown, Option } from "./Dropdown";
-import { FaCheck } from "react-icons/fa6";
 import ImgModule from "./ImageModule";
+import { useParams } from "react-router-dom";
 
 const apiKey = import.meta.env.VITE_PEXELS_API_KEY;
 const client = createClient(apiKey);
 
 function PhotoGrid({ children }) {
-	const { query } = useMyContext();
+	const { query } = useParams();
 
 	const {
 		data,
