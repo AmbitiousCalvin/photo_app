@@ -48,7 +48,11 @@ function Header() {
 		>
 			{!showSidebar && <Logo></Logo>}
 
-			<div className="relative grow ml-2 md:px-2 flex justify-end md:justify-center">
+			<div
+				className={`relative grow md:px-2 flex ${
+					showSidebar ? "justify-center" : "max-md:justify-end"
+				} md:justify-center md:ml-2`}
+			>
 				<SearchBar
 					showSidebar={showSidebar}
 					setShowSidebar={setShowSidebar}

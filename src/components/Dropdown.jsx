@@ -31,7 +31,7 @@ function Dropdown({
 				{...rest}
 				className={`group/dropdown dropdown-btn px-3 ${className}`}
 			>
-				<div className="flex items-center gap-1 justify-center">
+				<div className="dropdown_text_container flex items-center gap-1 justify-center">
 					{text && <>{text}</>}
 					{!text && childrenArray.length >= 1 && childProps?.children}
 					<ArrowIcon></ArrowIcon>

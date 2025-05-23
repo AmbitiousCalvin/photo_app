@@ -29,7 +29,11 @@ function Header() {
 		>
 			{!showSidebar && <Logo></Logo>}
 
-			<div className="relative grow ml-2 md:px-2 flex justify-end md:justify-center">
+			<div
+				className={`relative grow md:px-2 flex ${
+					showSidebar ? "justify-center" : "max-md:justify-end"
+				} md:justify-center md:ml-2`}
+			>
 				<SearchBar
 					showSidebar={showSidebar}
 					setShowSidebar={setShowSidebar}
@@ -96,7 +100,7 @@ export function SearchBar({
 
 	const activeStyles = showSidebar
 		? "max-md:flex max-md:bg-transparent max-md:ring-2 max-md:ring-gray-200 w-full"
-		: "max-md:hidden md:w-full max-w-[545px]";
+		: "max-md:hidden md:w-full max-w-[560px]";
 
 	return (
 		<>
@@ -113,22 +117,9 @@ export function SearchBar({
 			{(showHeader || showSidebar) && (
 				<div
 					onClick={() => inputRef.current?.focus()}
-					className={`${activeStyles} md:flex group transition-[width] duration-150 rounded-md items-center space-x-1 bg-gray-100 px-1.5`}
+					className={`${activeStyles} md:flex group transition-[width] duration-150 rounded-md items-center space-x-1 max-sm:scale-[0.9] bg-gray-100 px-1.5`}
 				>
-					<Dropdown
-						className={
-							"btn-third bg-white hover:bg-gray-100 hover:ring-1 hover:ring-gray-300"
-						}
-					>
-						<Option>
-							<HiOutlinePhotograph className="text-icon"></HiOutlinePhotograph>
-							Photos
-						</Option>
-						<Option>
-							<MdOutlineSlowMotionVideo className="text-icon"></MdOutlineSlowMotionVideo>
-							Videos
-						</Option>
-					</Dropdown>
+					<CustomDropdown></CustomDropdown>
 
 					<form onSubmit={submitQuery} className="flex-grow min-w-0 w-full">
 						<input
@@ -166,6 +157,25 @@ export function SearchBar({
 				</div>
 			)}
 		</>
+	);
+}
+
+function CustomDropdown() {
+	return (
+		<Dropdown
+			className={
+				"btn-third searchBar_dropdown bg-white hover:bg-gray-100 hover:ring-1 hover:ring-gray-300"
+			}
+		>
+			<Option>
+				<HiOutlinePhotograph className="text-icon"></HiOutlinePhotograph>
+				<p>Photos</p>
+			</Option>
+			<Option>
+				<MdOutlineSlowMotionVideo className="text-icon"></MdOutlineSlowMotionVideo>
+				<p>Videos</p>
+			</Option>
+		</Dropdown>
 	);
 }
 
