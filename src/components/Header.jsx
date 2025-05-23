@@ -1,29 +1,31 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Button, Icon } from "./Buttons";
-import { IoSearchOutline } from "react-icons/io5";
+import { IoSearch } from "react-icons/io5";
 import { Dropdown, Option } from "./Dropdown";
-import { TbWorld } from "react-icons/tb";
 import { useEffect } from "react";
-import useEventListener from "../hooks/useEventListener";
 import { useMyContext } from "../context";
 import { HiOutlinePhotograph } from "react-icons/hi";
 import { MdOutlineSlowMotionVideo } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 function Header() {
 	const { setQuery, showHeader } = useMyContext();
+	const [showSidebar, setShowSidebar] = useState(false);
 
 	const headerStyles = !showHeader
 		? "absolute z-auto bg-transparent text-white animate-show"
-		: "fixed z-50 flex items-center w-full bg-white/90 text-black shadow-lg backdrop-blur-md animate-opacity";
+		: "fixed z-50 bg-white animate-opacity text-black shadow-sm";
 
 	return (
 		<header
-			className={`top-0 padding-normal flex items-center w-full gap-2 ${headerStyles}`}
+			className={`top-0 h-[68px] padding-normal flex items-center w-full gap-2 ${headerStyles}`}
 		>
-			<Logo></Logo>
+			{!showSidebar && <Logo></Logo>}
 
-			<div className="relative grow ml-2 sm:px-2 flex justify-end sm:justify-center">
+			<div className="relative grow ml-2 md:px-2 flex justify-end md:justify-center">
 				<SearchBar
+					showSidebar={showSidebar}
+					setShowSidebar={setShowSidebar}
 					showHeader={showHeader}
 					setQuery={setQuery}
 					placeholder={"Search for free photos"}
@@ -31,39 +33,49 @@ function Header() {
 				></SearchBar>
 			</div>
 
-			<div className="flex items-center">
-				<Dropdown
-					text={"Explore"}
-					className={
-						!showHeader
-							? "rounded-full btn-third ring-0 h-full bg-transparent  hover:bg-gray-950/25 active:bg-gray-950/40 text-white shadow-none font-semibold"
-							: "btn-primary rounded-full pl-3"
-					}
-				>
-					<Option>
-						<HiOutlinePhotograph className="text-icon"></HiOutlinePhotograph>
-						Photos
-					</Option>
-					<Option>
-						<MdOutlineSlowMotionVideo className="text-icon"></MdOutlineSlowMotionVideo>
-						Videos
-					</Option>
-				</Dropdown>
-				<Button
-					className={`${
-						showHeader ? "btn-primary" : "btn-secondary"
-					} hidden sm:flex`}
-				>
-					Join
-				</Button>
-				<MenuIcon showHeader={showHeader}></MenuIcon>
-			</div>
+			{!showSidebar && (
+				<div className="flex items-center">
+					<Dropdown
+						text={"Explore"}
+						className={
+							!showHeader
+								? "rounded-full btn-third ring-0 h-full bg-transparent  hover:bg-gray-950/25 active:bg-gray-950/40 text-white shadow-none font-semibold"
+								: "btn-primary rounded-full pl-3"
+						}
+					>
+						<Option>
+							<HiOutlinePhotograph className="text-icon"></HiOutlinePhotograph>
+							Photos
+						</Option>
+						<Option>
+							<MdOutlineSlowMotionVideo className="text-icon"></MdOutlineSlowMotionVideo>
+							Videos
+						</Option>
+					</Dropdown>
+					<Button
+						className={`${
+							showHeader ? "btn-primary" : "btn-secondary"
+						} hidden sm:flex`}
+					>
+						Join
+					</Button>
+					<MenuIcon showHeader={showHeader}></MenuIcon>
+				</div>
+			)}
 		</header>
 	);
 }
 
-function SearchBar({ placeholder, type, setQuery, showHeader }) {
+export function SearchBar({
+	placeholder,
+	type,
+	setQuery,
+	showHeader,
+	showSidebar,
+	setShowSidebar,
+}) {
 	const [value, setValue] = useState("");
+	const activeStyles = showSidebar ? "flex" : "hidden";
 
 	useEffect(() => {
 		const handler = ({ key }) => {
@@ -77,22 +89,43 @@ function SearchBar({ placeholder, type, setQuery, showHeader }) {
 
 	return (
 		<>
-			{showHeader && (
-				<Icon className={"rounded-md icon-square sm:hidden"}>
-					<IoSearchOutline></IoSearchOutline>
+			{showHeader && !showSidebar && (
+				<Icon
+					onClick={() => setShowSidebar((prev) => !prev)}
+					className={"rounded-md icon-square md:hidden"}
+				>
+					<IoSearch></IoSearch>
 				</Icon>
 			)}
-			{showHeader && (
-				<div className="hidden sm:flex w-fit rounded-lg items-center px-1 py-0 space-x-1 ring-1 ring-gray-400">
+			{(showHeader || showSidebar) && (
+				<div
+					className={`${activeStyles} md:flex group w-full transition-[width] duration-150 rounded-md items-center space-x-1 bg-gray-100 px-1.5`}
+				>
+					<Dropdown
+						className={
+							"btn-third bg-white hover:bg-gray-200 hover:ring-1 hover:ring-gray-300"
+						}
+					>
+						<Option>
+							<HiOutlinePhotograph className="text-icon"></HiOutlinePhotograph>
+							Photos
+						</Option>
+						<Option>
+							<MdOutlineSlowMotionVideo className="text-icon"></MdOutlineSlowMotionVideo>
+							Videos
+						</Option>
+					</Dropdown>
 					<input
-						value={value}
-						onChange={(e) => setValue(e.target.value)}
 						type={type}
 						className="outline-none w-full px-4 font-semibold"
 						placeholder={placeholder}
 					></input>
-					<Icon className={"rounded-md icon-square"}>
-						<IoSearchOutline></IoSearchOutline>
+					<Icon
+						className={
+							"group-hover:opacity-100 opacity-[0.4] rounded-md icon-square icon-secondary"
+						}
+					>
+						<IoSearch className="text-icon"></IoSearch>
 					</Icon>
 				</div>
 			)}
@@ -100,17 +133,19 @@ function SearchBar({ placeholder, type, setQuery, showHeader }) {
 	);
 }
 
-function Logo() {
+export function Logo() {
 	return (
 		<div>
-			<h1 className="italic font-fancy text-2xl text-shadow-md cursor-pointer">
-				Lenscape
-			</h1>
+			<Link to="/">
+				<h1 className="italic font-fancy text-2xl text-shadow-md cursor-pointer">
+					Lenscape
+				</h1>
+			</Link>
 		</div>
 	);
 }
 
-function MenuIcon({ showHeader }) {
+export function MenuIcon({ showHeader }) {
 	const [active, setActive] = useState(false);
 
 	const bgColor = !showHeader ? "bg-white" : "bg-black";

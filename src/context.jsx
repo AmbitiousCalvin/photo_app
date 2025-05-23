@@ -12,7 +12,7 @@ export function ContextProvider({ children }) {
 	const [showHeader, setShowHeader] = useState(false);
 
 	useEventListener("scroll", (e) => {
-		setShowHeader(window.scrollY >= 600 ? true : false);
+		setShowHeader(window.scrollY >= 500 ? true : false);
 	});
 
 	return (

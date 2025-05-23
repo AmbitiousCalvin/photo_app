@@ -3,6 +3,8 @@ import { Icon, Button } from "./Buttons";
 import { FaArrowRight } from "react-icons/fa";
 import { FaArrowLeft } from "react-icons/fa";
 import { Children } from "react";
+import { useMyContext } from "../context";
+import { useLocalStorage } from "../hooks/useStorage";
 
 const photoTags = [
 	"portrait",
@@ -35,6 +37,7 @@ const photoTags = [
 ];
 
 function Slider({
+	storage_id,
 	className,
 	options = photoTags,
 	scrollable = true,
@@ -42,14 +45,15 @@ function Slider({
 }) {
 	const childrenArray = Children.toArray(children);
 	const [isHidden, setHidden] = useState([true, false]);
-	const [selectedId, setSelectedId] = useState(0);
+	const [selectedId, setSelectedId] = useLocalStorage(storage_id, 0);
 	const sliderContentRef = useRef(null);
+	const { setQuery } = useMyContext();
 
 	const scrollSlider = (direction = 1) => {
 		const el = sliderContentRef.current;
 		if (!el) return;
 
-		const scrollAmount = el.offsetWidth * 0.5 * direction;
+		const scrollAmount = el.offsetWidth * 0.55 * direction;
 		el.scrollBy({ left: scrollAmount });
 
 		const atStart = el.scrollLeft + scrollAmount <= 0 ? true : false;

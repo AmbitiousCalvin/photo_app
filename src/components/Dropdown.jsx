@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Button, ArrowIcon } from "./Buttons";
 
+
+
 function Option({ className, children, selected, ...rest }) {
 	return (
 		<span
@@ -27,7 +29,7 @@ function Dropdown({
 
 	return (
 		<>
-			<Button {...rest} className={`group dropdown-btn px-3 ${className}`}>
+			<Button {...rest} className={`group/dropdown dropdown-btn px-3 ${className}`}>
 				<div className="flex items-center gap-1 justify-center">
 					{text && <>{text}</>}
 					{!text && childrenArray.length >= 1 && childProps?.children}

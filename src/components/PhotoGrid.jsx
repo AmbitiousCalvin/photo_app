@@ -11,7 +11,7 @@ import ImgModule from "./ImageModule";
 const apiKey = import.meta.env.VITE_PEXELS_API_KEY;
 const client = createClient(apiKey);
 
-function PhotoGrid() {
+function PhotoGrid({ children }) {
 	const { query } = useMyContext();
 
 	const {
@@ -53,10 +53,7 @@ function PhotoGrid() {
 
 	return (
 		<>
-			<div className="w-full padding-normal [&&]:px-6 my-2 flex items-center justify-between">
-				<h1 className="text-2xl font-sans text-black">Free Stock Photos</h1>
-				<CustomDropdown></CustomDropdown>
-			</div>
+			{children}
 
 			<section className="padding-normal mx-3 columns-[280px] md:columns-[320px]">
 				{data.pages.map((group, i) => {
@@ -90,22 +87,4 @@ function PhotoGrid() {
 	);
 }
 
-function CustomDropdown() {
-	const [value, setValue] = useState("Trending");
-
-	return (
-		<Dropdown
-			text={value}
-			onChildClick={(e) => setValue(e.target.dataset.value)}
-			className="btn-third py-2 h-full bg-white hover:bg-gray-50 hover:ring-1 hover:ring-gray-400"
-		>
-			<Option data-value="Trending">
-				Trending {value === "Trending" && <FaCheck></FaCheck>}
-			</Option>
-			<Option data-value="New">
-				New {value === "New" && <FaCheck></FaCheck>}
-			</Option>
-		</Dropdown>
-	);
-}
 export default PhotoGrid;

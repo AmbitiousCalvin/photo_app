@@ -17,7 +17,7 @@ function Icon({ className, children, ...rest }) {
 
 function ArrowIcon() {
 	return (
-		<div className=" rounded-full flex items-center justify-center group-hover:rotate-180 transition-all duration-300">
+		<div className=" rounded-full flex items-center justify-center group-hover/dropdown:rotate-180 transition-all duration-300">
 			<IoIosArrowDown></IoIosArrowDown>
 		</div>
 	);
