@@ -112,6 +112,7 @@ export function SearchBar({
 			)}
 			{(showHeader || showSidebar) && (
 				<div
+					onClick={() => inputRef.current?.focus()}
 					className={`${activeStyles} md:flex group transition-[width] duration-150 rounded-md items-center space-x-1 bg-gray-100 px-1.5`}
 				>
 					<Dropdown

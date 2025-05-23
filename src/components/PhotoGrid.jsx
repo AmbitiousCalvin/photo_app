@@ -1,18 +1,17 @@
-"use server";
-
-import React from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { Button } from "../components/Buttons";
 import { createClient } from "pexels";
 import ImgModule from "./ImageModule";
 import { useParams } from "react-router-dom";
-import LoadingScreen from "./LoadingScreen";
+import { Masonry } from "masonic";
+import { useState, useEffect } from "react";
 
 const apiKey = import.meta.env.VITE_PEXELS_API_KEY;
 const client = createClient(apiKey);
 
 function PhotoGrid({ children }) {
 	const { query } = useParams();
+	const [allPhotos, setAllPhotos] = useState([]);
+	const [lastFetchedLength, setLastFetchedLength] = useState(0);
 
 	const {
 		data,
@@ -23,7 +22,7 @@ function PhotoGrid({ children }) {
 		status,
 	} = useInfiniteQuery({
 		queryKey: ["photos", query],
-		queryFn: async ({ pageParam = 1 }) => {
+		queryFn: ({ pageParam = 1 }) => {
 			return client.photos.search({
 				query,
 				per_page: 20,
@@ -37,6 +36,18 @@ function PhotoGrid({ children }) {
 			return page < totalPages ? page + 1 : undefined;
 		},
 	});
+
+	useEffect(() => {
+		if (!data) return;
+
+		const newPages = data.pages.slice(lastFetchedLength);
+		const newPhotos = newPages.flatMap((page) => page.photos);
+
+		if (newPhotos.length > 0) {
+			setAllPhotos((prev) => [...prev, ...newPhotos]);
+			setLastFetchedLength(data.pages.length);
+		}
+	}, [data]);
 
 	if (status === "pending")
 		return (
@@ -54,32 +65,24 @@ function PhotoGrid({ children }) {
 	return (
 		<>
 			{children}
-
-			<section className="padding-normal mx-3 columns-[280px] md:columns-[320px]">
-				{data.pages.map((group, i) => {
-					return (
-						<React.Fragment key={i}>
-							{group.photos?.map((photo) => (
-								<ImgModule key={photo.id} photo={photo}></ImgModule>
-							))}
-						</React.Fragment>
-					);
-				})}
-
-				<div>
-					{isFetching && !isFetchingNextPage ? "Fetching..." : "Stable"}
-				</div>
-				<Button
-					className="btn-third"
-					onClick={() => fetchNextPage()}
-					disabled={!hasNextPage || isFetchingNextPage}
-				>
-					{isFetchingNextPage
-						? "Loading more..."
-						: hasNextPage
-						? "Load More"
-						: "Nothing more to load"}
-				</Button>
+			<section className="padding-normal mx-3">
+				<Masonry
+					items={allPhotos}
+					render={ImgModule}
+					columnWidth={320}
+					maxColumnCount={3}
+					columnGutter={16}
+					onRender={(start, stop, visible) => {
+						if (
+							stop >= allPhotos.length - 1 &&
+							hasNextPage &&
+							!isFetching &&
+							!isFetchingNextPage
+						) {
+							fetchNextPage();
+						}
+					}}
+				/>
 			</section>
 		</>
 	);

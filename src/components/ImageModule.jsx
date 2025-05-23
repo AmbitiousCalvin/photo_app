@@ -2,23 +2,35 @@ import { useState } from "react";
 import { Button } from "./Buttons";
 import { GoDownload } from "react-icons/go";
 
-function ImgModule({ photo }) {
+function ImgModule({ index, width, data: photo }) {
 	const [isLoaded, setIsLoaded] = useState(false);
+
+	const downloadImage = async (url) => {
+		try {
+			const res = await fetch(url);
+			const blob = await res.blob();
+
+			const link = document.createElement("a");
+			link.href = URL.createObjectURL(blob);
+			link.download = crypto.randomUUID();
+			link.click();
+		} catch (error) {
+			console.error("Error downloading the image:", error);
+		}
+	};
 
 	return (
 		<div
 			key={photo?.id}
-			className={`relative group w-full overflow-hidden rounded-lg mb-4
-				${isLoaded ? "border-2 border-green-500 shadow-md shadow-gray-400" : ""}`}
+			className={`relative w-full group overflow-hidden rounded-lg mb-4
+				${isLoaded ? " shadow-md shadow-gray-300" : ""}`}
 		>
-			{/* Placeholder skeleton */}
 			<div
-				className={`absolute inset-0 bg-gray-200 animate-pulse transition-opacity duration-700 ${
+				className={`absolute inset-0 bg-gray-200 animate-pulse transition-opacity duration-500 ${
 					isLoaded ? "opacity-0" : "opacity-100"
 				}`}
 			></div>
 
-			{/* Actual Image */}
 			<img
 				src={photo?.src?.large}
 				alt={photo?.alt || "Image"}
@@ -28,7 +40,6 @@ function ImgModule({ photo }) {
 				}`}
 			/>
 
-			{/* Hover Info Bar */}
 			<div
 				className="absolute bottom-0 left-0 w-full z-20 
 					opacity-0 translate-y-full pointer-events-none 
