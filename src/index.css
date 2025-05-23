@@ -10,7 +10,7 @@
 }
 
 @theme {
-	--animate-img-reveal: img_reveal 500ms ease-in-out forwards;
+	--animate-img-reveal: img_reveal 400ms ease-in-out forwards;
 	@keyframes img_reveal {
 		100% {
 			border-width: 3px;

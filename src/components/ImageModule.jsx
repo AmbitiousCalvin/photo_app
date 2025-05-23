@@ -8,29 +8,39 @@ function ImgModule({ photo }) {
 	return (
 		<div
 			key={photo?.id}
-			className={`relative group overflow-hidden w-full h-full rounded-lg mb-4 transition-opacity duration-700
-				${isLoaded ? "opacity-100 animate-img-reveal" : "opacity-0"} empty:hidden`}
+			className={`relative group w-full overflow-hidden rounded-lg mb-4
+				${isLoaded ? "border-2 border-green-500 shadow-md shadow-gray-400" : ""}`}
 		>
+			{/* Placeholder skeleton */}
+			<div
+				className={`absolute inset-0 bg-gray-200 animate-pulse transition-opacity duration-700 ${
+					isLoaded ? "opacity-0" : "opacity-100"
+				}`}
+			></div>
+
+			{/* Actual Image */}
 			<img
 				src={photo?.src?.large}
 				alt={photo?.alt || "Image"}
 				onLoad={() => setIsLoaded(true)}
-				className={`object-cover w-full h-auto rounded-sm transition-opacity duration-700 ease-in-out
-			${isLoaded ? "opacity-100" : "opacity-0"}`}
+				className={`relative z-10 object-cover w-full h-auto rounded-sm transition-opacity duration-700 ease-in-out ${
+					isLoaded ? "opacity-100" : "opacity-0"
+				}`}
 			/>
+
+			{/* Hover Info Bar */}
 			<div
-				className="absolute bottom-0 left-0 w-full z-10 
-						opacity-0 translate-y-full pointer-events-none 
-						group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto
-						transition-all duration-500 ease-in-out
-						flex items-center gap-2 p-2 bg-black/70 rounded"
+				className="absolute bottom-0 left-0 w-full z-20 
+					opacity-0 translate-y-full pointer-events-none 
+					group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto
+					transition-all duration-500 ease-in-out 
+					flex items-center gap-2 p-2 bg-black/70 rounded"
 			>
-				{/* Photographer Name with Tooltip */}
 				<a
 					href={photo.photographer_url}
 					target="_blank"
 					title={photo.photographer}
-					className="text-sm font-semibold cursor-pointer text-white underline"
+					className="text-sm font-semibold text-white underline truncate max-w-[140px]"
 				>
 					@{photo.photographer}
 				</a>

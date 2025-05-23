@@ -6,6 +6,7 @@ import { Button } from "../components/Buttons";
 import { createClient } from "pexels";
 import ImgModule from "./ImageModule";
 import { useParams } from "react-router-dom";
+import LoadingScreen from "./LoadingScreen";
 
 const apiKey = import.meta.env.VITE_PEXELS_API_KEY;
 const client = createClient(apiKey);
@@ -68,7 +69,6 @@ function PhotoGrid({ children }) {
 				<div>
 					{isFetching && !isFetchingNextPage ? "Fetching..." : "Stable"}
 				</div>
-				<div>{!isFetchingNextPage && "not fetching next page"}</div>
 				<Button
 					className="btn-third"
 					onClick={() => fetchNextPage()}
@@ -80,7 +80,6 @@ function PhotoGrid({ children }) {
 						? "Load More"
 						: "Nothing more to load"}
 				</Button>
-				<div>{isFetching && "fetching or refreshing"}</div>
 			</section>
 		</>
 	);
