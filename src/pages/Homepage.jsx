@@ -1,5 +1,5 @@
 import HeroSection from "../components/HeroSection.jsx";
-import { Button, LoadingIcon } from "../components/Buttons.jsx";
+import { Button } from "../components/Buttons.jsx";
 import Header from "../components/Header.jsx";
 import Slider from "../components/Slider.jsx";
 import PhotoGrid from "../components/PhotoGrid.jsx";

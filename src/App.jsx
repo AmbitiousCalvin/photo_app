@@ -4,7 +4,6 @@
 // import HeroSection from "./components/HeroSection.jsx";
 // import PhotoGrid from "./components/PhotoGrid.jsx";
 import { ContextProvider } from "./context/context.jsx";
-import useLazyLoad from "./hooks/useLazyLoad.jsx";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React from "react";
 
