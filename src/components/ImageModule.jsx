@@ -31,14 +31,16 @@ function ImgModule({ index, width, data: photo }) {
 				}`}
 			></div>
 
-			<img
-				src={photo?.src?.large}
-				alt={photo?.alt || "Image from pexels"}
-				onLoad={() => setIsLoaded(true)}
-				className={`relative z-10 object-cover w-full h-auto rounded-sm transition-opacity duration-700 ease-in-out ${
-					isLoaded ? "opacity-100" : "opacity-0"
-				}`}
-			/>
+			<a href={photo?.url}>
+				<img
+					src={photo?.src?.large}
+					alt={photo?.alt || "Image from pexels"}
+					onLoad={() => setIsLoaded(true)}
+					className={`relative z-10 object-cover w-full h-auto rounded-sm transition-opacity duration-700 ease-in-out ${
+						isLoaded ? "opacity-100" : "opacity-0"
+					}`}
+				/>
+			</a>
 
 			<div
 				className="absolute bottom-0 left-0 w-full z-20 

@@ -7,24 +7,13 @@ const MyContext = createContext();
 export function useMyContext() {
 	return useContext(MyContext);
 }
-const photoQueries = [
-	"sunset",
-	"mountains",
-	"city skyline",
-	"beach",
-	"forest",
-	"cats",
-	"space",
-	"food",
-	"architecture",
-	"street photography",
-];
+const photoQueries = ["mountains", "city skyline", "beach", "forest", "food", "nature"];
 
 export function ContextProvider({ children }) {
-
-	const randomIndex = Math.floor(Math.random() * photoQueries.length);
-
-	const [query, setQuery] = useState(photoQueries[randomIndex]);
+	const [query, setQuery] = useState(() => {
+		const randomIndex = Math.floor(Math.random() * photoQueries.length);
+		return photoQueries[randomIndex];
+	});
 	const [showHeader, setShowHeader] = useState(false);
 
 	useEventListener("scroll", () => {

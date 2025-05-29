@@ -7,6 +7,7 @@ import { useLocalStorage } from "../hooks/useStorage";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import useEventListener from "../hooks/useEventListener";
+import { useMyContext } from "../context/context";
 
 const photoTags = [
 	"portrait",
@@ -46,6 +47,7 @@ function Slider({ storage_id, className, options = photoTags, scrollable = true,
 	const naviagte = useNavigate();
 	const isDragging = useRef(false);
 	const lastX = useRef(0);
+	const { setQuery } = useMyContext();
 
 	const handlePointerDown = (e) => {
 		if (!sliderContentRef.current?.contains(e.target)) return;
@@ -134,7 +136,8 @@ function Slider({ storage_id, className, options = photoTags, scrollable = true,
 							<Button
 								onClick={(e) => {
 									setSelectedId(index);
-									naviagte(`/photos/${e.target.textContent}`);
+									naviagte(`/photos/${encodeURIComponent(e.target.textContent)}`);
+									setQuery(e.target.textContent);
 								}}
 								className={`btn-third select-none w-fit text-black rounded-m ${selectedStyles(index === selectedId)}`}
 								key={index}
@@ -155,7 +158,8 @@ function Slider({ storage_id, className, options = photoTags, scrollable = true,
 						onClick={(e) => {
 							setSelectedId(index);
 							onClick(e, index);
-							naviagte(`/photos/${e.target.textContent}`);
+							naviagte(`/photos/${encodeURIComponent(e.target.textContent)}`);
+							setQuery(e.target.textContent);
 						}}
 						key={index}
 						{...rest}

@@ -24,9 +24,7 @@ function Header() {
 	});
 
 	return (
-		<header
-			className={`top-0 h-[68px] padding-normal flex items-center w-full gap-2 ${headerStyles}`}
-		>
+		<header className={`top-0 h-[68px] padding-normal flex items-center w-full gap-2 ${headerStyles}`}>
 			{!showSidebar && <Logo></Logo>}
 
 			<div
@@ -62,13 +60,7 @@ function Header() {
 							Videos
 						</Option>
 					</Dropdown>
-					<Button
-						className={`${
-							showHeader ? "btn-primary" : "btn-secondary"
-						} hidden sm:flex`}
-					>
-						Join
-					</Button>
+					<Button className={`${showHeader ? "btn-primary" : "btn-secondary"} hidden sm:flex`}>Join</Button>
 					<MenuIcon showHeader={showHeader}></MenuIcon>
 				</div>
 			)}
@@ -76,14 +68,9 @@ function Header() {
 	);
 }
 
-export function SearchBar({
-	placeholder,
-	type,
-	showHeader,
-	showSidebar,
-	setShowSidebar,
-}) {
+export function SearchBar({ placeholder, type, showHeader, showSidebar, setShowSidebar }) {
 	const [value, setValue] = useState("");
+	const { setQuery } = useMyContext();
 	const navigate = useNavigate();
 
 	const inputRef = useRef(null);
@@ -91,6 +78,7 @@ export function SearchBar({
 		e.preventDefault();
 		if (value.trim() === "") return;
 		navigate(`/photos/${encodeURIComponent(value)}`);
+		setQuery(value);
 		setValue("");
 	};
 
@@ -162,11 +150,7 @@ export function SearchBar({
 
 function CustomDropdown() {
 	return (
-		<Dropdown
-			className={
-				"btn-third searchBar_dropdown bg-white hover:bg-gray-100 hover:ring-1 hover:ring-gray-300"
-			}
-		>
+		<Dropdown className={"btn-third searchBar_dropdown bg-white hover:bg-gray-100 hover:ring-1 hover:ring-gray-300"}>
 			<Option>
 				<HiOutlinePhotograph className="text-icon"></HiOutlinePhotograph>
 				<p>Photos</p>
@@ -183,9 +167,7 @@ export function Logo() {
 	return (
 		<div>
 			<Link to="/">
-				<h1 className="italic font-fancy text-2xl text-shadow-md cursor-pointer">
-					Lenscape
-				</h1>
+				<h1 className="italic font-fancy text-2xl text-shadow-md cursor-pointer">Lenscape</h1>
 			</Link>
 		</div>
 	);
@@ -208,9 +190,7 @@ export function MenuIcon({ showHeader }) {
 			{/* Top bar */}
 			<span
 				className={`absolute w-5 h-0.5 ${bgColor} rounded-md transition-all duration-300 ${
-					active
-						? "rotate-45 top-1/2 translate-y-[-50%]"
-						: "top-[calc(50%-0.45rem)] rounded-none"
+					active ? "rotate-45 top-1/2 translate-y-[-50%]" : "top-[calc(50%-0.45rem)] rounded-none"
 				}
 					
 					`}
@@ -218,17 +198,13 @@ export function MenuIcon({ showHeader }) {
 
 			{/* Middle bar */}
 			<span
-				className={`absolute w-5 h-0.5 ${bgColor} rounded-md transition-all duration-300 ${
-					active ? "opacity-0" : ""
-				}`}
+				className={`absolute w-5 h-0.5 ${bgColor} rounded-md transition-all duration-300 ${active ? "opacity-0" : ""}`}
 			></span>
 
 			{/* Bottom bar */}
 			<span
 				className={`absolute w-5 h-0.5 ${bgColor} rounded-md transition-all duration-300 ${
-					active
-						? "-rotate-45 top-1/2 translate-y-[-50%]"
-						: "top-[calc(50%+0.45rem)] rounded-none"
+					active ? "-rotate-45 top-1/2 translate-y-[-50%]" : "top-[calc(50%+0.45rem)] rounded-none"
 				}`}
 			></span>
 		</button>

@@ -11,18 +11,21 @@ import { useRef } from "react";
 function HeroSection() {
 	return (
 		<section
-			className="h-[545px] padding-normal border-none flex flex-col items-center justify-center gap-2 bg-no-repeat bg-cover bg-center"
+			className="relative h-[545px] padding-normal border-none flex flex-col items-center justify-center gap-2 bg-no-repeat bg-cover bg-center"
 			style={{
 				backgroundImage: `url(/background.jpeg)`,
 			}}
 		>
 			<div className="w-[clamp(250px,95%,600px)] flex flex-col items-center gap-4 justify-center px-1">
 				<h1 className="text-[clamp(1.5rem,3vw,2rem)] text-left text-white font-semibold leading-tight text-shadow-lg ">
-					The best free stock photos, royalty-free images & videos shared by
-					creators.
+					The best free stock photos, royalty-free images & videos shared by creators.
 				</h1>
 				<SearchBar placeholder="Search for free photos" />
 			</div>
+
+			<a href="https://www.pexels.com" className="absolute bottom-5 right-5 text-[18px] text-white underline">
+				Photos provided by Pexels
+			</a>
 		</section>
 	);
 }
@@ -44,11 +47,7 @@ function SearchBar({ placeholder = "", type = "text" }) {
 			onClick={() => inputRef.current?.focus()}
 			className="group w-full h-15 transition-[width] duration-150 rounded-lg flex items-center p-1.5 space-x-1 ring-1 ring-gray-100 shadow-md bg-gray-50 "
 		>
-			<Dropdown
-				className={
-					"btn-third py-2 h-full bg-white hover:bg-gray-200 hover:ring-1 hover:ring-gray-300"
-				}
-			>
+			<Dropdown className={"btn-third py-2 h-full bg-white hover:bg-gray-200 hover:ring-1 hover:ring-gray-300"}>
 				<Option>
 					<HiOutlinePhotograph className="text-icon"></HiOutlinePhotograph>
 					Photos
@@ -71,9 +70,7 @@ function SearchBar({ placeholder = "", type = "text" }) {
 			</form>
 			<Icon
 				onClick={submitQuery}
-				className={
-					"group-hover:opacity-100 opacity-[0.4] rounded-md icon-square icon-secondary"
-				}
+				className={"group-hover:opacity-100 opacity-[0.4] rounded-md icon-square icon-secondary"}
 			>
 				<IoSearch className="text-icon"></IoSearch>
 			</Icon>

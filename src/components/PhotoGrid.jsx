@@ -6,24 +6,20 @@ import { Masonry } from "masonic";
 import { useState, useEffect } from "react";
 import { LoadingIcon } from "./Buttons";
 import { useRef } from "react";
+import { useMyContext } from "../context/context";
 
 const apiKey = import.meta.env.VITE_PEXELS_API_KEY;
 const client = createClient(apiKey);
 
 function PhotoGrid() {
-	const { query } = useParams();
+	const { query } = useMyContext();
 	const [allPhotos, setAllPhotos] = useState([]);
 	const [lastFetchedLength, setLastFetchedLength] = useState(0);
 	const prevQueryRef = useRef(query);
 
-	const {
-		data,
-		fetchNextPage,
-		hasNextPage,
-		isFetching,
-		isFetchingNextPage,
-		status,
-	} = useInfiniteQuery({
+	console.log(query);
+
+	const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage, status } = useInfiniteQuery({
 		queryKey: ["photos", query],
 		queryFn: ({ pageParam = 1 }) => {
 			return client.photos.search({
@@ -77,12 +73,7 @@ function PhotoGrid() {
 					maxColumnCount={3}
 					columnGutter={16}
 					onRender={(start, stop, visible) => {
-						if (
-							stop >= allPhotos.length - 1 &&
-							hasNextPage &&
-							!isFetching &&
-							!isFetchingNextPage
-						) {
+						if (stop >= allPhotos.length - 1 && hasNextPage && !isFetching && !isFetchingNextPage) {
 							fetchNextPage();
 						}
 					}}
