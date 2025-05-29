@@ -72,8 +72,8 @@ export function SearchBar({ placeholder, type, showHeader, showSidebar, setShowS
 	const [value, setValue] = useState("");
 	const { setQuery } = useMyContext();
 	const navigate = useNavigate();
-
 	const inputRef = useRef(null);
+
 	const submitQuery = (e) => {
 		e.preventDefault();
 		if (value.trim() === "") return;
@@ -81,6 +81,11 @@ export function SearchBar({ placeholder, type, showHeader, showSidebar, setShowS
 		setQuery(value);
 		setValue("");
 	};
+
+	useEventListener("keydown", (event) => {
+		const key = event.key.toLowerCase();
+		if (event.ctrlKey && key === "/") inputRef.current.focus();
+	});
 
 	useEffect(() => {
 		if (showSidebar) inputRef.current?.focus();
@@ -104,6 +109,7 @@ export function SearchBar({ placeholder, type, showHeader, showSidebar, setShowS
 			)}
 			{(showHeader || showSidebar) && (
 				<div
+					title="Shortcut: Ctrl + /"
 					onClick={() => inputRef.current?.focus()}
 					className={`${activeStyles} md:flex group transition-[width] duration-150 rounded-md items-center space-x-1 max-sm:scale-[0.9] bg-gray-100 px-1.5`}
 				>
