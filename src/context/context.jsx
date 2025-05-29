@@ -7,20 +7,20 @@ const MyContext = createContext();
 export function useMyContext() {
 	return useContext(MyContext);
 }
+const photoQueries = [
+	"sunset",
+	"mountains",
+	"city skyline",
+	"beach",
+	"forest",
+	"cats",
+	"space",
+	"food",
+	"architecture",
+	"street photography",
+];
 
 export function ContextProvider({ children }) {
-	const photoQueries = [
-		"sunset",
-		"mountains",
-		"city skyline",
-		"beach",
-		"forest",
-		"cats",
-		"space",
-		"food",
-		"architecture",
-		"street photography",
-	];
 
 	const randomIndex = Math.floor(Math.random() * photoQueries.length);
 

@@ -5,6 +5,8 @@ import { FaArrowLeft } from "react-icons/fa";
 import { Children } from "react";
 import { useLocalStorage } from "../hooks/useStorage";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import useEventListener from "../hooks/useEventListener";
 
 const photoTags = [
 	"portrait",
@@ -36,29 +38,51 @@ const photoTags = [
 	"studio-light",
 ];
 
-function Slider({
-	storage_id,
-	className,
-	options = photoTags,
-	scrollable = true,
-	children,
-}) {
+function Slider({ storage_id, className, options = photoTags, scrollable = true, children }) {
 	const childrenArray = Children.toArray(children);
 	const [isHidden, setHidden] = useState([true, false]);
 	const [selectedId, setSelectedId] = useLocalStorage(storage_id, 0);
 	const sliderContentRef = useRef(null);
 	const naviagte = useNavigate();
+	const isDragging = useRef(false);
+	const lastX = useRef(0);
 
-	const scrollSlider = (direction = 1) => {
+	const handlePointerDown = (e) => {
+		if (!sliderContentRef.current?.contains(e.target)) return;
+
+		isDragging.current = true;
+		lastX.current = e.clientX;
+		e.target.setPointerCapture?.(e.pointerId);
+	};
+
+	const handlePointerMove = (e) => {
+		if (!isDragging.current) return;
+
+		const dx = lastX.current - e.clientX;
+		scrollSlider(1, dx);
+	};
+
+	const handlePointerUp = (e) => {
+		if (!isDragging.current) return;
+
+		isDragging.current = false;
+		lastX.current = 0;
+		e.target.releasePointerCapture?.(e.pointerId);
+	};
+
+	useEventListener("pointerdown", handlePointerDown);
+	useEventListener("pointermove", handlePointerMove);
+	useEventListener("pointerup", handlePointerUp);
+
+	const scrollSlider = (direction = 1, amount = 0) => {
 		const el = sliderContentRef.current;
 		if (!el) return;
 
-		const scrollAmount = el.offsetWidth * 0.55 * direction;
+		const scrollAmount = amount == 0 ? el.offsetWidth * 0.55 * direction : amount * 1.5;
 		el.scrollBy({ left: scrollAmount });
 
 		const atStart = el.scrollLeft + scrollAmount <= 0 ? true : false;
-		const atEnd =
-			el.scrollLeft + scrollAmount >= el.scrollWidth - el.clientWidth;
+		const atEnd = el.scrollLeft + scrollAmount >= el.scrollWidth - el.clientWidth;
 
 		setHidden([atStart, atEnd]);
 	};
@@ -88,17 +112,11 @@ function Slider({
 	};
 
 	return (
-		<nav
-			className={`${
-				className ? className : "w-full"
-			} h-10 flex items-center padding-normal space-x-2 my-2`}
-		>
+		<nav className={`${className ? className : "w-full"} h-10 flex items-center padding-normal space-x-2 my-2`}>
 			{scrollable && (
 				<Icon
 					onClick={() => scrollSlider(-1)}
-					className={`icon-secondary ${
-						isHidden[0] && "opacity-25 cursor-not-allowed"
-					}`}
+					className={`icon-secondary ${isHidden[0] && "opacity-25 cursor-not-allowed"}`}
 				>
 					<FaArrowLeft></FaArrowLeft>
 				</Icon>
@@ -118,9 +136,7 @@ function Slider({
 									setSelectedId(index);
 									naviagte(`/photos/${e.target.textContent}`);
 								}}
-								className={`btn-third w-fit text-black rounded-m ${selectedStyles(
-									index === selectedId
-								)}`}
+								className={`btn-third select-none w-fit text-black rounded-m ${selectedStyles(index === selectedId)}`}
 								key={index}
 							>
 								{option}
@@ -132,12 +148,7 @@ function Slider({
 
 			{/* if children is provided, inject some extra code and display it */}
 			{Children.map(childrenArray, (child, index) => {
-				const {
-					children,
-					onClick = () => {},
-					className,
-					...rest
-				} = child.props;
+				const { children, onClick = () => {}, className, ...rest } = child.props;
 
 				return (
 					<Button
@@ -158,9 +169,7 @@ function Slider({
 			{scrollable && (
 				<Icon
 					onClick={() => scrollSlider(1)}
-					className={`icon-secondary ${
-						isHidden[1] && "opacity-25 cursor-not-allowed"
-					}`}
+					className={`icon-secondary ${isHidden[1] && "opacity-25 cursor-not-allowed"}`}
 				>
 					<FaArrowRight></FaArrowRight>
 				</Icon>
