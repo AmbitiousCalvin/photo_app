@@ -1,54 +1,29 @@
-# React + TypeScript + Vite
+<h3 align="center">Pexels Clone Lenscape</h3>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## <a name="tech-stack">Tech Stack</a>
 
-Currently, two official plugins are available:
+- React 19
+- TailwindCSS
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## <a name="features">🔋 Features</a>
 
-## Expanding the ESLint configuration
+👉 **Dynamic Content**: Displays the latest photos dynamically on the homepage using Pexels API.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+👉 **Search**: Search functionality to load and view photos efficiently.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+## <a name="reason">Why I built this</a>
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- to get to coding after not touching it for 3 whole months! This is a rebuilt version of my original pexels clone. This project only has the photo section, searchbar and photo download parts working so this is a lesser version of the old one
+- But i do feel like the code here is a bit cleaner, at least for me and I learned tailwindcss which i've been dreading about for a long time and I feel a bit better now.
+- Still, there's a lot of things I still don't know. In fact, I am pretty sure that I am an absolute idiot in react and js so gonna be keep learning.
+- Am I proud of this project? I don't think I am. Considering that this is the most basic thing you could build, I spent like 4days which is ok i guess since i am crap at this.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- link to old project: [https://codesandbox.io/p/sandbox/elastic-dream-y2qlr7](https://codesandbox.io/p/sandbox/elastic-dream-y2qlr7)
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+## <a name="after">Things after this project</a>
+
+- learn Next-Js (hopes it goes well)
+- learn mongodb
+- learn how to use socket.io
+- learn how to use node, jwt
+- finally do a project using all those to make a chat app
